@@ -7,11 +7,11 @@ from utils import load_config
 from routes import setup_routes
 
 
-PROJ_ROOT = pathlib.Path(__file__).parent
+CONF_PATH = pathlib.Path(__file__).parent / 'config.json'
 
 
 async def init(loop: asyncio.AbstractEventLoop):
-    conf = load_config(PROJ_ROOT / 'config.json')
+    conf = load_config(CONF_PATH)
     host, port = conf["host"], conf["port"]
 
     app = web.Application(loop=loop)

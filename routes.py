@@ -1,5 +1,5 @@
 from aiohttp import web
-from health import health
+from web.health import health
 from web.jrpc_handler import handle as handle_jrpc
 
 
