@@ -6,7 +6,7 @@ async def handle(request: web.Request):
     request_text = await request.text()
     response = await dispatch(request_text)
     if response.wanted:
-        return web.json_response(response.deserialized(), status=response.http_status)
+        return web.json_response(response.deserialized())
     return web.Response
 
 
