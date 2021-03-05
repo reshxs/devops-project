@@ -7,7 +7,7 @@ from utils import load_config
 from routes import setup_routes
 
 
-CONF_PATH = pathlib.Path(__file__).parent / 'config.json'
+CONF_PATH = pathlib.Path(__file__).parent / 'config' / 'config.json'
 
 
 async def init(loop: asyncio.AbstractEventLoop):
