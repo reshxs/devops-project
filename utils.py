@@ -10,6 +10,7 @@ def load_config(path):
 
 
 def _validate_config(config):
+    # todo: add database config validation
     if "host" not in config or not isinstance(config.get("host"), str):
         raise ValueError("Config should contains key \'host\' with str value")
 

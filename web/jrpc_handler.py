@@ -1,15 +1,18 @@
 from aiohttp import web
-from jsonrpcserver import method, async_dispatch as dispatch
+from jsonrpcserver import async_dispatch as dispatch
+from web.jrpc_methods import *
+import json
 
 
-async def handle(request: web.Request):
-    request_text = await request.text()
-    response = await dispatch(request_text)
-    if response.wanted:
-        return web.json_response(response.deserialized())
-    return web.Response
+class JrpcHandler:
+    def __init__(self, app: web.Application):
+        self.app = app
 
-
-@method
-async def echo(*args):
-    return args
+    async def handle(self, request: web.Request):
+        request_text = await request.text()
+        request_json = json.loads(request_text)
+        params = request_json.get("params")
+        response = await dispatch(request_text, context={'objects': self.app.objects, 'params': params})
+        if response.wanted:
+            return web.json_response(response.deserialized())
+        return web.Response()
