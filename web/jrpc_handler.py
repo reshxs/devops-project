@@ -1,7 +1,9 @@
 from aiohttp import web
 from jsonrpcserver import async_dispatch as dispatch
+
 from web.jrpc_methods import *
-import json
+from products.methods import *
+from cart.models import *
 
 
 class JrpcHandler:
@@ -10,9 +12,7 @@ class JrpcHandler:
 
     async def handle(self, request: web.Request):
         request_text = await request.text()
-        request_json = json.loads(request_text)
-        params = request_json.get("params")
-        response = await dispatch(request_text, context={'objects': self.app.objects, 'params': params})
+        response = await dispatch(request_text, context={'objects': self.app.objects})
         if response.wanted:
             return web.json_response(response.deserialized())
         return web.Response()

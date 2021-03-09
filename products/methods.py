@@ -1,5 +1,5 @@
 from jsonrpcserver import method
-from common.db.models import *
+from products.models import Product
 
 
 @method
