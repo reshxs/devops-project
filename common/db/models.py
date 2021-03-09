@@ -8,9 +8,9 @@ class BaseModel(peewee.Model):
         database = database
 
 
-class Good(BaseModel):
-    good_id = peewee.CharField(unique=True, null=False)
-    good_name = peewee.CharField()
-    good_description = peewee.TextField()
-    good_price = peewee.DecimalField()
-    good_moderating = peewee.BooleanField(default=True)
+class Product(BaseModel):
+    product_id = peewee.AutoField()  # (unique=True, null=False, primary_key=True)
+    product_name = peewee.CharField()
+    product_description = peewee.TextField()
+    product_price = peewee.DoubleField()
+    product_moderating = peewee.BooleanField(default=True)
