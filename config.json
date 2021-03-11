@@ -1,0 +1,15 @@
+{
+  "host": "127.0.0.1",
+  "port": 8080,
+  "database":
+  {
+    "database": "postgres",
+    "host": "localhost"
+  },
+  "jwt":
+  {
+    "algorithm": "HS256",
+    "ext_time_delta_min": 1,
+    "secret_key": "secret"
+  }
+}

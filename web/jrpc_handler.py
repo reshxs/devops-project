@@ -12,7 +12,10 @@ class JrpcHandler:
 
     async def handle(self, request: web.Request):
         request_text = await request.text()
-        response = await dispatch(request_text, context={'objects': self.app.objects})
+        context = {
+            'objects': self.app.objects,
+        }
+        response = await dispatch(request_text, context=context)
         if response.wanted:
             return web.json_response(response.deserialized())
         return web.Response()

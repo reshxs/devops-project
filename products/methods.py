@@ -31,9 +31,9 @@ async def moderating_products_list(context):
 @method
 async def add_product(context, request):
     objects = context.get('objects')
-    await objects.create(Product,
-                         product_name=request.get('product_name'),
-                         product_description=request.get('product_description'),
-                         product_price=request.get('product_price'),
-                         product_moderating=request.get('product_moderating'))
-    return request
+    inst = await objects.create(Product,
+                                product_name=request.get('product_name'),
+                                product_description=request.get('product_description'),
+                                product_price=request.get('product_price'),
+                                product_moderating=request.get('product_moderating'))
+    return inst.__dict__['__data__']

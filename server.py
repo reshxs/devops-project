@@ -7,8 +7,9 @@ from aiohttp import web
 from utils import load_config
 from routes import setup_routes
 from common.db.db import database
+from auth.middleware import auth_middleware
 
-CONF_PATH = pathlib.Path(__file__).parent / 'config' / 'config.json'
+CONF_PATH = pathlib.Path(__file__).parent / 'config.json'
 
 
 async def init_app(loop: asyncio.AbstractEventLoop):
@@ -17,12 +18,14 @@ async def init_app(loop: asyncio.AbstractEventLoop):
 
     # Creating an app
     app = web.Application(loop=loop)
+    app.jwt_conf = conf['secret_key']
 
     # Setting up database
     app.database = database
     app.database.init(**conf['database'])
     app.database.set_allow_sync(False)
     app.objects = peewee_async.Manager(app.database, loop=loop)
+    app.middlewares.append(auth_middleware)
 
     # Setting up routes
     setup_routes(app)

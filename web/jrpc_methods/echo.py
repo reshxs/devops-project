@@ -2,5 +2,5 @@ from jsonrpcserver import method
 
 
 @method
-async def echo(*args):
-    return args
+async def echo(context, *request):
+    return request
