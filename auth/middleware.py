@@ -12,7 +12,7 @@ async def auth_middleware(app, handler):
         jwt_token = request.headers.get('authorization', None)
         if jwt_token:
             try:
-                payload = jwt.decode(jwt_token, jwt_conf['secret'], algorithms=[jwt_conf['algorithm']])
+                payload = jwt.decode(jwt_token, jwt_conf['secret_key'], algorithms=[jwt_conf['algorithm']])
             except (jwt.DecodeError, jwt.ExpiredSignatureError):
                 return web.json_response({"error": "bad token"}, status=400)
 

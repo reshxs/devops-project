@@ -18,7 +18,7 @@ async def login(context, request):
                 'user_id': user.user_id,
                 'exp': datetime.utcnow() + timedelta(minutes=jwt_conf['ext_time_delta_min'])
             }
-            token = jwt.encode(payload, jwt_conf['secret'], jwt_conf['algorithm'])
+            token = jwt.encode(payload, jwt_conf['secret_key'], jwt_conf['algorithm'])
             return {"token": token}
     except DoesNotExist:
         pass
