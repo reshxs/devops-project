@@ -4,7 +4,6 @@ from auth.decorators import login_required, admin_required
 
 
 @method
-@login_required
 async def products_list(context):
     objects = context['objects']
     query = Product.select().where(Product.product_moderating == False)
@@ -32,6 +31,7 @@ async def moderating_products_list(context):
 
 
 @method
+@admin_required
 async def add_product(context, request):
     objects = context.get('objects')
     inst = await objects.create(Product,
