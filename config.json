@@ -9,7 +9,7 @@
   "jwt":
   {
     "algorithm": "HS256",
-    "ext_time_delta_min": 1,
+    "ext_time_delta_min": 30,
     "secret_key": "secret"
   }
 }
