@@ -4,7 +4,7 @@ from auth.decorators import login_required
 
 from web.jrpc_methods import *
 from products.methods import *
-from cart.models import *
+from cart.methods import *
 
 
 class JrpcHandler:
