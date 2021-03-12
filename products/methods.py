@@ -9,10 +9,10 @@ async def products_list(context):
     query = Product.select().where(Product.product_moderating == False)
     products = await objects.execute(query)
     return list(map(lambda g: {
-        'good_id': g.product_id,
-        'good_name': g.product_name,
-        'good_description': g.product_description,
-        'good_price': float(g.product_price)
+        'product_id': g.product_id,
+        'product_name': g.product_name,
+        'product_description': g.product_description,
+        'product_price': float(g.product_price)
     }, products))
 
 
