@@ -24,11 +24,11 @@ async def login(context, request):
 
             session = await get_session(request_obj)
             session['token'] = token
-            return {"token": token}
+            return {
+                "status": "ok"
+            }
     except DoesNotExist:
-        pass
-
-    raise InvalidParamsError("Password doesn't match")
+        raise InvalidParamsError("Password doesn't match")
 
 
 @method
