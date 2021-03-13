@@ -15,7 +15,7 @@ class JrpcHandler:
         request_text = await request.text()
         context = {
             'objects': self.app.objects,
-            'user_id': request.user
+            'request_obj': request
         }
         response = await dispatch(request_text, context=context)
         if response.wanted:

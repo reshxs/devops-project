@@ -13,7 +13,8 @@ class AuthHandler:
         request_text = await request.text()
         context = {
             'objects': self.app.objects,
-            'jwt_conf': self.app.jwt_conf
+            'jwt_conf': self.app.jwt_conf,
+            'request_obj': request
         }
         response = await dispatch(request_text, context=context)
         if response.wanted:

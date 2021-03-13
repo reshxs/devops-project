@@ -2,8 +2,12 @@ import asyncio
 import logging
 import pathlib
 import peewee_async
+import base64
 
 from aiohttp import web
+from aiohttp_session.cookie_storage import EncryptedCookieStorage
+from aiohttp_session import setup as setup_sessions
+from cryptography import fernet
 from utils import load_config
 from routes import setup_routes
 from common.db.db import database
@@ -19,6 +23,12 @@ async def init_app(loop: asyncio.AbstractEventLoop):
     # Creating an app
     app = web.Application(loop=loop)
     app.jwt_conf = conf['jwt']
+
+    # Setting up sessions
+    fernet_key = fernet.Fernet.generate_key()
+    secret_key = base64.urlsafe_b64decode(fernet_key)
+    setup_sessions(app, EncryptedCookieStorage(secret_key))
+
 
     # Setting up database
     app.database = database

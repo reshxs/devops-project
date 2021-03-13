@@ -5,12 +5,13 @@ from auth.models import User
 def login_required(func):
     @wraps(func)
     async def wrapped(context, request=None):
-        if context['user_id']:
+        request_obj = context['request_obj']
+        if request_obj.user:
             if request:
                 return await func(context, request)
             return await func(context)
         return {
-            "message": "Auth required!"
+            "message": "Auth required"
         }
 
     return wrapped
