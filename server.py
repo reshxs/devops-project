@@ -5,7 +5,8 @@ import peewee_async
 import base64
 
 from aiohttp import web
-from aiohttp_session.cookie_storage import EncryptedCookieStorage
+import aiomcache
+from aiohttp_session.memcached_storage import MemcachedStorage
 from aiohttp_session import setup as setup_sessions
 from cryptography import fernet
 from utils import load_config
@@ -25,16 +26,16 @@ async def init_app(loop: asyncio.AbstractEventLoop):
     app.jwt_conf = conf['jwt']
 
     # Setting up sessions
-    fernet_key = fernet.Fernet.generate_key()
-    secret_key = base64.urlsafe_b64decode(fernet_key)
-    setup_sessions(app, EncryptedCookieStorage(secret_key))
-
+    mc_conf = conf["memcached"]
+    mc = aiomcache.Client(mc_conf["host"], mc_conf["port"], loop=loop)
+    setup_sessions(app, MemcachedStorage(mc))
 
     # Setting up database
     app.database = database
     app.database.init(**conf['database'])
     app.database.set_allow_sync(False)
     app.objects = peewee_async.Manager(app.database, loop=loop)
+
     app.middlewares.append(auth_middleware)
 
     # Setting up routes
