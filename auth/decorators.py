@@ -1,5 +1,4 @@
 from functools import wraps
-from auth.models import User
 
 
 def login_required(func):
