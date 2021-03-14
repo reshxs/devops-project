@@ -1,16 +1,18 @@
 import jwt
 from datetime import datetime, timedelta
 from jsonrpcserver import method
-from jsonrpcserver.exceptions import InvalidParamsError
+from jsonrpcserver.exceptions import InvalidParamsError, ApiError
 from auth.models import User
 from auth.utils import hash_password, match_password
 from peewee import DoesNotExist
+from aiohttp_session import get_session
 
 
 @method
 async def login(context, request):
     objects = context['objects']
     jwt_conf = context['jwt_conf']
+    request_obj = context['request_obj']
     try:
         user = await objects.get(User, user_email=request.get('email'))
         if match_password(user, request.get('password')):
@@ -19,11 +21,16 @@ async def login(context, request):
                 'exp': datetime.utcnow() + timedelta(minutes=jwt_conf['ext_time_delta_min'])
             }
             token = jwt.encode(payload, jwt_conf['secret_key'], jwt_conf['algorithm'])
-            return {"token": token}
-    except DoesNotExist:
-        pass
 
-    raise InvalidParamsError("Password doesn't match")
+            session = await get_session(request_obj)
+            session['token'] = token
+            return {
+                "status": "ok"
+            }
+    except DoesNotExist:
+        raise ApiError("User does not exists")
+
+    raise ApiError("Password does not match")
 
 
 @method

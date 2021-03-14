@@ -2,8 +2,13 @@ import asyncio
 import logging
 import pathlib
 import peewee_async
+import base64
 
 from aiohttp import web
+import aiomcache
+from aiohttp_session.memcached_storage import MemcachedStorage
+from aiohttp_session import setup as setup_sessions
+from cryptography import fernet
 from utils import load_config
 from routes import setup_routes
 from common.db.db import database
@@ -20,11 +25,17 @@ async def init_app(loop: asyncio.AbstractEventLoop):
     app = web.Application(loop=loop)
     app.jwt_conf = conf['jwt']
 
+    # Setting up sessions
+    mc_conf = conf["memcached"]
+    mc = aiomcache.Client(mc_conf["host"], mc_conf["port"], loop=loop)
+    setup_sessions(app, MemcachedStorage(mc))
+
     # Setting up database
     app.database = database
     app.database.init(**conf['database'])
     app.database.set_allow_sync(False)
     app.objects = peewee_async.Manager(app.database, loop=loop)
+
     app.middlewares.append(auth_middleware)
 
     # Setting up routes

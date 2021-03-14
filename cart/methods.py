@@ -38,7 +38,7 @@ async def add_to_cart(context, request):
         raise InvalidParamsError('product_id or count is None')
 
     async with objects.atomic():
-        user = await objects.get(User, user_id=context['user_id'])
+        user = context['request_obj'].user
         cart = await objects.get_or_create(Cart, user=user)
         product = await objects.get(Product, product_id=product_id)
         # todo: check why generates sync query
@@ -74,7 +74,7 @@ async def remove_from_cart(context, request):
     objects = context['objects']
     product_id = request.get('product_id', None)
     async with objects.atomic():
-        user = await objects.get(User, user_id=context['user_id'])
+        user = context['request_obj'].user
         cart = await objects.get(Cart, user=user)
         product = await objects.get(Product, product_id=product_id)
         # todo: check why generates sync query
@@ -99,7 +99,7 @@ async def get_cart(context):
     # todo: writer tests
 
     objects = context['objects']
-    user = await objects.get(User, user_id=context['user_id'])
+    user = context['request_obj'].user
     cart = await objects.get_or_create(Cart, user=user)
     cart = cart[0]
     # todo: check why query is sync
@@ -108,7 +108,7 @@ async def get_cart(context):
 
         result = list()
 
-        # todo: cehck why related object call is sync
+        # todo: check why related object call is sync
         for product in map(lambda pa: pa.product, product_assignments):
             result.append({
                 'product_id': product.product_id,
