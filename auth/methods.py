@@ -1,7 +1,7 @@
 import jwt
 from datetime import datetime, timedelta
 from jsonrpcserver import method
-from jsonrpcserver.exceptions import InvalidParamsError
+from jsonrpcserver.exceptions import InvalidParamsError, ApiError
 from auth.models import User
 from auth.utils import hash_password, match_password
 from peewee import DoesNotExist
@@ -28,7 +28,9 @@ async def login(context, request):
                 "status": "ok"
             }
     except DoesNotExist:
-        raise InvalidParamsError("Password doesn't match")
+        raise ApiError("User does not exists")
+
+    raise ApiError("Password does not match")
 
 
 @method
