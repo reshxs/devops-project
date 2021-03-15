@@ -8,12 +8,11 @@ main {
 }
 
 header {
-    background-color: #b8ecff;
     text-align: center;
     margin: 0;
-    padding-top: 0.1rem;
-    padding-bottom: 0.1rem;
-    border-bottom: #86c4e0 solid 5px;
+    padding-top: 0.01rem;
+    padding-bottom: 0.01rem;
+    box-shadow: 0 1px 5px 0 rgba(95,95,95,10);
 }
 
 header p {
@@ -30,22 +29,42 @@ header p {
     color: #323232;
 }
 
-nav a {
-    background-color: #315669;
-    border-radius: 15px;
-    padding: 5px 10px;
-    margin-right: 15px;
-    color: aliceblue;
-    text-decoration: none;
+.sidenav {
+    margin-top: 120px;
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+    border-right: 1px solid #bcbcbc;
 }
 
-nav a:hover {
-    background-color: #86c4e0;
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #86c4e0;
 }
 
 .content {
-    margin-top: 40px;
-    border-top: 1px #bcbcbc solid;
+    margin-top: 120px;
+    margin-left: 160px;
+    height: 100%;
+    width: 400px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+    border-right: 1px solid #bcbcbc;
 }
 
 .content ul {
@@ -56,8 +75,36 @@ nav a:hover {
     margin-bottom: 15px;
 }
 
-.content ul a {
+.list-link {
     color: black;
     text-decoration: none;
-    padding: 5px 10px;
+    padding-left: 10px;
+    border-left: 18px solid black;
+}
+
+.content ul h3{
+    font-size: 25px;
+}
+
+.list-link:hover {
+    color: #86c4e0;
+}
+
+.content button {
+    background-color: #bcbcbc; /* Green */
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.content button:hover{
+    background-color: #86c4e0;
+}
+
+.edit-link {
+    border: none;
 }

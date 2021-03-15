@@ -3,12 +3,12 @@
 {% block content %}
 <ul>
     {% if user %}
-    <a href="{{url('admin_user_edit', id=user.user_id)}}">Редактировать</a>
     <h3>{{user.user_email}}</h3>
     <p>Имя: {{user.user_name}}</p>
     <p>Фамилия: {{user.user_surname}}</p>
     <p>Телефон: {{user.user_phone}}</p>
     <p>Админ: {{user.user_is_admin}}</p>
+    <a class="edit-link" href="{{url('admin_user_edit', id=user.user_id)}}"><button>Редактировать</button></a>
     {% endif %}
 </ul>
 {% endblock%}

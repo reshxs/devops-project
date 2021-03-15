@@ -1,11 +1,10 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 {% set title = "Панель администратора" %}
 {% block body %}
-    <a class="admin-home-link" href="{{url('admin_index')}}"><h1>Панель администратора</h1></a>
-    <nav>
+    <div class="sidenav">
         <a href="{{url('admin_users')}}">Пользователи</a>
         <a href="{{url('admin_products')}}">Товары</a>
-    </nav>
+    </div>
     <section class="content">
     {% block content %}
     {% endblock %}
