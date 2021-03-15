@@ -10,8 +10,8 @@
     let passwordInput = document.querySelector('#password-input')
 
     button.onclick = async function () {
-        console.log(email)
-        console.log(password)
+        let email = emailInput.value;
+        let password = passwordInput.value;
         let request = {
             "jsonrpc": "2.0",
             "method": "login",
@@ -31,7 +31,7 @@
         if(result.result != null){
             window.location.replace("http://127.0.0.1:8080/")
         }
-        else if(result.error) {
+        else if(result.error){
             window.location.replace("http://127.0.0.1:8080/auth/login")
         }
     };
