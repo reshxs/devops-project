@@ -1,0 +1,9 @@
+{% extends "admin/index.html" %}
+{% set title="Пользователи - панель администратора"%}
+{% block content %}
+<ul>
+    {% for user in users %}
+    <li><a href="{{url('admin_user_details', id=user.user_id)}}">{{user.user_email}}</a></li>
+    {% endfor %}
+</ul>
+{% endblock%}

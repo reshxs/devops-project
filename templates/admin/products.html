@@ -1,0 +1,11 @@
+{% extends "admin/index.html" %}
+{% set title = "Товары - панель администратора"%}
+{% block content %}
+<ul>
+    {% for product in products %}
+    <li><a href="{{url('admin_product_details', id=product.product_id)}}">
+        {{product.product_name}}
+    </a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
