@@ -1,8 +1,11 @@
 {% extends "base.html"%}
 {% block body %}
-<input id="email-input" type="text">
-<input id="password-input" type="password">
-<button id="login-button">Войти</button>
+<div class="login-page">
+    <link rel="stylesheet" href="/static/auth/login.css">
+    <center><input id="email-input" type="text" placeholder="Email"></center>
+    <center><input id="password-input" type="password" placeholder="Password"></center>
+    <button id="login-button">Войти</button>
+</div>
 
 <script type="text/javascript">
     let button = document.querySelector('#login-button')
