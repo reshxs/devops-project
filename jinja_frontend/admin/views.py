@@ -1,14 +1,17 @@
 import aiohttp_jinja2
+
+from auth.decorators import view_admin_required
 from auth.models import User
 from products.models import Product
-from aiohttp import web
 
 
+@view_admin_required
 @aiohttp_jinja2.template('admin/index.html')
 async def admin_index(request):
     return {}
 
 
+@view_admin_required
 @aiohttp_jinja2.template('admin/users.html')
 async def admin_users(request):
     objects = request.app.objects
@@ -16,6 +19,7 @@ async def admin_users(request):
     return {'users': users}
 
 
+@view_admin_required
 @aiohttp_jinja2.template('admin/user_details.html')
 async def admin_user_details(request):
     objects = request.app.objects
@@ -26,6 +30,7 @@ async def admin_user_details(request):
     }
 
 
+@view_admin_required
 @aiohttp_jinja2.template('admin/products.html')
 async def admin_products(request):
     objects = request.app.objects
@@ -33,6 +38,7 @@ async def admin_products(request):
     return {'products': products}
 
 
+@view_admin_required
 @aiohttp_jinja2.template('admin/product_details.html')
 async def admin_product_details(request):
     objects = request.app.objects
@@ -41,6 +47,7 @@ async def admin_product_details(request):
     return {'product': product}
 
 
+@view_admin_required
 @aiohttp_jinja2.template('admin/user_edit.html')
 async def admin_user_edit(request):
     objects = request.app.objects
@@ -49,6 +56,7 @@ async def admin_user_edit(request):
     return {'user': user}
 
 
+@view_admin_required
 @aiohttp_jinja2.template('admin/user_edit.html')
 async def admin_user_edit_post(request):
     objects = request.app.objects
@@ -69,6 +77,7 @@ async def admin_user_edit_post(request):
     return {'user': user}
 
 
+@view_admin_required
 @aiohttp_jinja2.template('admin/product_edit.html')
 async def admin_product_edit(request):
     objects = request.app.objects
@@ -77,6 +86,7 @@ async def admin_product_edit(request):
     return {'product': product}
 
 
+@view_admin_required
 @aiohttp_jinja2.template('admin/product_edit.html')
 async def admin_product_edit_post(request):
     objects = request.app.objects
