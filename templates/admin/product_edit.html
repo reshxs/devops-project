@@ -3,6 +3,7 @@
 {% block content %}
 <ul>
     {% if product %}
+    <a class="back-link" href="{{url('admin_product_details', id=product.product_id)}}">< Назад</a>
     <h3>Редактировать</h3>
     <div class="edit-form">
         <form method="post">

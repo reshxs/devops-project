@@ -38,7 +38,9 @@ def view_login_required(func):
     async def wrapped(request):
         if request.user:
             return await func(request)
-        return web.Response(text="Login required")
+
+        location = request.app.router['login'].url_for()
+        raise web.HTTPFound(location)
 
     return wrapped
 

@@ -16,6 +16,7 @@ async def login(context, request):
     try:
         user = await objects.get(User, user_email=request.get('email'))
         if match_password(user, request.get('password')):
+            # todo: save only uid in session
             payload = {
                 'user_id': user.user_id,
                 'exp': datetime.utcnow() + timedelta(minutes=jwt_conf['ext_time_delta_min'])

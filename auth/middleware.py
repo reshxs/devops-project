@@ -12,6 +12,7 @@ async def auth_middleware(app, handler):
     async def middleware(request):
         session = await get_session(request)
         request.user = None
+        # todo: check uid from session
         if 'token' in session:
             jwt_token = session['token']
             try:

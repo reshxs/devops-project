@@ -3,6 +3,7 @@
 {% block content %}
 <ul>
     {% if user %}
+    <a class="back-link" href="{{url('admin_user_details', id=user.user_id)}}">< Назад</a>
     <h3>Редактировать</h3>
     <div class="edit-form">
     <form method="post">
