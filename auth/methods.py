@@ -2,6 +2,7 @@ from jsonrpcserver import method
 from jsonrpcserver.exceptions import InvalidParamsError, ApiError
 from auth.models import User
 from auth.utils import hash_password, match_password
+from auth.decorators import login_required
 from peewee import DoesNotExist
 from aiohttp_session import get_session
 
@@ -22,6 +23,17 @@ async def login(context, request):
         raise ApiError("User does not exists")
 
     raise ApiError("Password does not match")
+
+
+@method
+@login_required
+async def logout(context):
+    request_obj = context['request_obj']
+    session = await get_session(request_obj)
+    session.invalidate()
+    return {
+        "message": "logged out"
+    }
 
 
 @method

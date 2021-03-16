@@ -1,11 +1,10 @@
 from aiohttp import web
 from jsonrpcserver import async_dispatch as dispatch
-from auth.decorators import login_required
 
 from web.jrpc_methods import *
 from products.methods import *
 from cart.methods import *
-from  auth.methods import *
+from auth.methods import *
 
 
 class JrpcHandler:
