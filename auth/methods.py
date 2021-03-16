@@ -1,5 +1,3 @@
-import jwt
-from datetime import datetime, timedelta
 from jsonrpcserver import method
 from jsonrpcserver.exceptions import InvalidParamsError, ApiError
 from auth.models import User
@@ -11,20 +9,12 @@ from aiohttp_session import get_session
 @method
 async def login(context, request):
     objects = context['objects']
-    jwt_conf = context['jwt_conf']
     request_obj = context['request_obj']
     try:
         user = await objects.get(User, user_email=request.get('email'))
         if match_password(user, request.get('password')):
-            # todo: save only uid in session
-            payload = {
-                'user_id': user.user_id,
-                'exp': datetime.utcnow() + timedelta(minutes=jwt_conf['ext_time_delta_min'])
-            }
-            token = jwt.encode(payload, jwt_conf['secret_key'], jwt_conf['algorithm'])
-
             session = await get_session(request_obj)
-            session['token'] = token
+            session['user_id'] = user.user_id
             return {
                 "status": "ok"
             }

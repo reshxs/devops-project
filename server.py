@@ -24,7 +24,6 @@ async def init_app(loop: asyncio.AbstractEventLoop):
 
     # Creating an app
     app = web.Application(loop=loop)
-    app.jwt_conf = conf['jwt']
 
     # Setting up sessions
     mc_conf = conf["memcached"]
