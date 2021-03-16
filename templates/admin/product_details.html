@@ -1,0 +1,17 @@
+{% extends "admin/index.html" %}
+{% set title="Пользователи - панель администратора"%}
+{% block content %}
+<div class="details">
+<ul>
+    <a class="back-link" href="{{url('admin_products')}}"> < Назад</a>
+    {% if product %}
+    <h3>{{product.product_name}}</h3>
+    <p>Описание: {{product.product_description}}</p>
+    <p>Цена: {{product.product_price}}</p>
+    <p>Товар на продаже: {{not product.product_moderating}}</p>
+    <a class="edit-link" href="{{url('admin_product_edit', id=product.product_id)}}">
+        <button class="admin-button">Редактировать</button></a>
+    {% endif %}
+</ul>
+</div>
+{% endblock%}

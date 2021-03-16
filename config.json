@@ -6,12 +6,6 @@
     "database": "postgres",
     "host": "localhost"
   },
-  "jwt":
-  {
-    "algorithm": "HS256",
-    "ext_time_delta_min": 30,
-    "secret_key": "secret"
-  },
   "memcached":
   {
     "host": "127.0.0.1",

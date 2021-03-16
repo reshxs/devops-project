@@ -1,4 +1,5 @@
 from functools import wraps
+from aiohttp import web
 
 
 def login_required(func):
@@ -29,4 +30,26 @@ def admin_required(func):
             "message": "Admin required"
         }
 
+    return wrapped
+
+
+def view_login_required(func):
+    @wraps(func)
+    async def wrapped(request):
+        if request.user:
+            return await func(request)
+
+        location = request.app.router['login'].url_for()
+        raise web.HTTPFound(location)
+
+    return wrapped
+
+
+def view_admin_required(func):
+    @view_login_required
+    @wraps(func)
+    async def wrapped(request):
+        if request.user.user_is_admin:
+            return await func(request)
+        return web.Response(text='Admin required')
     return wrapped

@@ -1,0 +1,19 @@
+{% extends "admin/index.html" %}
+{% set title="Пользователи - панель администратора"%}
+{% block content %}
+<ul>
+    <li>
+        <h3>Пользователи: </h3>
+    </li>
+    <li>
+        <a class="edit-link" href="{{url('admin_user_create')}}">
+            <button class="admin-button">Создать</button>
+        </a>
+    </li>
+    {% for user in users %}
+    <li>
+        <a class="list-link" href="{{url('admin_user_details', id=user.user_id)}}">{{user.user_email}}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock%}

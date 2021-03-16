@@ -1,9 +1,8 @@
-import jwt
-from datetime import datetime, timedelta
 from jsonrpcserver import method
 from jsonrpcserver.exceptions import InvalidParamsError, ApiError
 from auth.models import User
 from auth.utils import hash_password, match_password
+from auth.decorators import login_required
 from peewee import DoesNotExist
 from aiohttp_session import get_session
 
@@ -11,19 +10,12 @@ from aiohttp_session import get_session
 @method
 async def login(context, request):
     objects = context['objects']
-    jwt_conf = context['jwt_conf']
     request_obj = context['request_obj']
     try:
         user = await objects.get(User, user_email=request.get('email'))
         if match_password(user, request.get('password')):
-            payload = {
-                'user_id': user.user_id,
-                'exp': datetime.utcnow() + timedelta(minutes=jwt_conf['ext_time_delta_min'])
-            }
-            token = jwt.encode(payload, jwt_conf['secret_key'], jwt_conf['algorithm'])
-
             session = await get_session(request_obj)
-            session['token'] = token
+            session['user_id'] = user.user_id
             return {
                 "status": "ok"
             }
@@ -31,6 +23,17 @@ async def login(context, request):
         raise ApiError("User does not exists")
 
     raise ApiError("Password does not match")
+
+
+@method
+@login_required
+async def logout(context):
+    request_obj = context['request_obj']
+    session = await get_session(request_obj)
+    session.invalidate()
+    return {
+        "message": "logged out"
+    }
 
 
 @method

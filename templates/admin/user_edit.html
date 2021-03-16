@@ -1,0 +1,30 @@
+{% extends "admin/index.html" %}
+{% set title="Пользователи - панель администратора"%}
+{% block content %}
+<ul>
+    {% if user %}
+    <a class="back-link" href="{{url('admin_user_details', id=user.user_id)}}">< Назад</a>
+    <h3>Редактировать</h3>
+    <div class="edit-form">
+    <form method="post">
+        <label for="email">Почта: </label>
+        <input id="email" name="email" type="text" value="{{user.user_email}}">
+
+        <label for="name">Имя: </label>
+        <input id="name" name="name" type="text" value="{{user.user_name}}">
+
+        <label for="surname">Фамилия: </label>
+        <input id="surname" name="surname" type="text" value="{{user.user_surname}}">
+
+        <label for="phone">Номер телефона:</label>
+        <input id="phone" type="text" name="phone" value="{{user.user_phone}}">
+
+        <label for="is_admin">Права администратора: </label>
+        <input id="is_admin" name="is_admin" type="checkbox" {% if user.user_is_admin %} checked {% endif %}>
+
+        <input class="admin-button" type="submit" value="Сохранить">
+    </form>
+    </div>
+    {% endif %}
+</ul>
+{% endblock%}

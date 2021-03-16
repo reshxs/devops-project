@@ -1,0 +1,174 @@
+body {
+    margin: 0;
+    font-family: "Arial", "sans-serif";
+}
+
+main {
+    margin: 25px;
+}
+
+header {
+    text-align: center;
+    margin: 0;
+    padding-top: 0.01rem;
+    padding-bottom: 0.01rem;
+    box-shadow: 0 1px 5px 0 rgba(95,95,95,10);
+}
+
+header p {
+    font-size: 36px;
+    font-weight: 900;
+}
+
+.admin-home-link {
+    color: black;
+    text-decoration: none;
+}
+
+.admin-home-link:hover {
+    color: #323232;
+}
+
+.sidenav {
+    margin-top: 120px;
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+    border-right: 1px solid #bcbcbc;
+}
+
+.sidenav a {
+    /*padding: 6px 8px 6px 16px;*/
+    margin-bottom: 15px;
+    margin-left: 10px;
+    padding-left: 10px;
+    text-decoration: none;
+    color: black;
+    display: block;
+    border-left: 18px solid black;
+}
+
+.sidenav a:hover {
+    color: #86c4e0;
+}
+
+.content {
+    margin-top: 120px;
+    margin-left: 160px;
+    height: 100%;
+    width: 400px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+    border-right: 1px solid #bcbcbc;
+}
+
+.content ul {
+    list-style: none;
+}
+
+.content li {
+    margin-bottom: 15px;
+}
+
+.list-link {
+    color: black;
+    text-decoration: none;
+    padding-left: 10px;
+    border-left: 18px solid black;
+}
+
+.content ul h3{
+    font-size: 25px;
+}
+
+.list-link:hover {
+    color: #86c4e0;
+}
+
+.admin-button {
+    background-color: black; /* Green */
+  border: none;
+  color: aliceblue;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.admin-button:hover{
+    background-color: #86c4e0;
+}
+
+.edit-link {
+    border: none;
+}
+
+.back-link {
+    color: black;
+    text-decoration: none;
+}
+
+.back-link:hover{
+    color: #86c4e0;
+}
+
+.edit-form {
+    padding-right: 30px;
+}
+
+.edit-form h3 {
+    background: #4D4D4D;
+	text-transform: uppercase;
+	font-family: 'Open Sans Condensed', sans-serif;
+	color: #797979;
+	font-size: 18px;
+	font-weight: 100;
+	padding: 20px;
+	margin: -30px -30px 30px -30px;
+}
+
+.edit-form input[type="text"],
+.edit-form input[type="date"],
+.edit-form input[type="datetime"],
+.edit-form input[type="email"],
+.edit-form input[type="number"],
+.edit-form input[type="search"],
+.edit-form input[type="time"],
+.edit-form input[type="url"],
+.edit-form input[type="password"],
+.edit-form textarea,
+.edit-form select
+{
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	outline: none;
+	display: block;
+	width: 100%;
+	padding: 7px;
+	border: none;
+	border-bottom: 1px solid #ddd;
+	background: transparent;
+	margin-bottom: 25px;
+	font: 16px Arial, Helvetica, sans-serif;
+	height: 45px;
+}
+
+.edit-form input[type="checkbox"] {
+    padding: 7px;
+    margin-bottom: 25px;
+}
+
+.edit-form label {
+    color: #797979;
+}
