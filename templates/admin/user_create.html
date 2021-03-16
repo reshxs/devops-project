@@ -2,7 +2,9 @@
 {% set title="Пользователи - панель администратора"%}
 {% block content %}
 <ul>
+    <a class="back-link" href="{{url('admin_users')}}"> < Назад</a>
     <h3>Редактировать</h3>
+    <div class="edit-form">
     <form method="post">
         <label for="email">Почта: </label>
         <input id="email" name="email" type="text">
@@ -16,10 +18,11 @@
         <label for="phone">Номер телефона:</label>
         <input id="phone" type="text" name="phone">
 
-        <label for="is_admin">Админ: </label>
+        <label for="is_admin">Права администратора: </label>
         <input id="is_admin" name="is_admin" type="checkbox">
 
         <input class="admin-button" type="submit" value="Сохранить">
     </form>
+    </div>
 </ul>
 {% endblock%}
