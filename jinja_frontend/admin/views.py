@@ -1,8 +1,11 @@
 import aiohttp_jinja2
 
+from aiohttp import web
 from auth.decorators import view_admin_required
 from auth.models import User
 from products.models import Product
+from peewee import DoesNotExist
+from auth.utils import hash_password
 
 
 @view_admin_required
@@ -28,23 +31,6 @@ async def admin_user_details(request):
     return {
         "user": user
     }
-
-
-@view_admin_required
-@aiohttp_jinja2.template('admin/products.html')
-async def admin_products(request):
-    objects = request.app.objects
-    products = await objects.execute(Product.select())
-    return {'products': products}
-
-
-@view_admin_required
-@aiohttp_jinja2.template('admin/product_details.html')
-async def admin_product_details(request):
-    objects = request.app.objects
-    product_id = request.match_info["id"]
-    product = await objects.get(Product, product_id=product_id)
-    return {'product': product}
 
 
 @view_admin_required
@@ -74,7 +60,49 @@ async def admin_user_edit_post(request):
 
     await objects.update(user)
 
-    return {'user': user}
+    location = request.app.router['admin_user_details'].url_for(id=user_id)
+    raise web.HTTPFound(location)
+
+
+@view_admin_required
+@aiohttp_jinja2.template('admin/user_create.html')
+async def admin_user_create(request):
+    return {}
+
+
+@view_admin_required
+@aiohttp_jinja2.template('admin.user_create.html')
+async def admin_user_create_post(request):
+    objects = request.app.objects
+    form = request.post()
+    user = await objects.create(User,
+                                user_name=form['name'],
+                                user_surname=form['surname'],
+                                user_email=form['email'],
+                                user_phone=form['phone'],
+                                user_password=hash_password(form['password']))
+    location = request.app.router['admin_user_details'].url_for(user.user_id)
+    raise web.HTTPFound(location)
+
+
+@view_admin_required
+@aiohttp_jinja2.template('admin/products.html')
+async def admin_products(request):
+    objects = request.app.objects
+    products = await objects.execute(Product.select())
+    return {'products': products}
+
+
+@view_admin_required
+@aiohttp_jinja2.template('admin/product_details.html')
+async def admin_product_details(request):
+    objects = request.app.objects
+    product_id = request.match_info["id"]
+    try:
+        product = await objects.get(Product, product_id=product_id)
+    except DoesNotExist:
+        product = None
+    return {'product': product}
 
 
 @view_admin_required
@@ -96,10 +124,36 @@ async def admin_product_edit_post(request):
     form = await request.post()
     product.product_name = form['name']
     product.product_description = form['description']
-    product.product_price = form['price']
+    product.product_price = float(form['price'])
 
-    is_moderating = form.get('on_sale', None)
-    product.product_moderating = False if is_moderating else True
+    on_sale = form.get('on_sale', None)
+    product.product_moderating = False if on_sale else True
 
     await objects.update(product)
-    return {'product': product}
+
+    location = request.app.router['admin_product_details'].url_for(id=product_id)
+    raise web.HTTPFound(location)
+    # return {'product': product}
+
+
+@view_admin_required
+@aiohttp_jinja2.template('admin/product_create.html')
+async def admin_product_create(request):
+    return {}
+
+
+@view_admin_required
+@aiohttp_jinja2.template('admin/product_create.html')
+async def admin_product_create_post(request):
+    objects = request.app.objects
+    form = await request.post()
+
+    on_sale = form.get('is_moderating')
+    product = await objects.create(Product,
+                                   product_name=form.get('name'),
+                                   product_description=form.get('description'),
+                                   product_price=float(form.get('price')),
+                                   product_moderating=False if on_sale else True)
+
+    location = request.app.router['products'].url_for()
+    raise web.HTTPFound(location)

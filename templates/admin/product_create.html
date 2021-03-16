@@ -1,0 +1,18 @@
+{% extends "admin/index.html" %}
+{% set title="Пользователи - панель администратора"%}
+{% block content %}
+<ul>
+    <h3>Создать</h3>
+    <form method="post">
+        <label for="name">Название: </label>
+        <input id="name" name="name">
+        <label for="description">Описание: </label>
+        <input id="description" name="description" type="text">
+        <label for="price">Цена: </label>
+        <input id="price" name="price" type="text">
+        <label for="on_sale">Выставить на продажу: </label>
+        <input id="on_sale" name="on_sale" type="checkbox">
+        <input class="admin-button" type="submit" value="Сохранить">
+    </form>
+</ul>
+{% endblock%}

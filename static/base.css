@@ -43,10 +43,14 @@ header p {
 }
 
 .sidenav a {
-    padding: 6px 8px 6px 16px;
+    /*padding: 6px 8px 6px 16px;*/
+    margin-bottom: 15px;
+    margin-left: 10px;
+    padding-left: 10px;
     text-decoration: none;
     color: black;
     display: block;
+    border-left: 18px solid black;
 }
 
 .sidenav a:hover {
@@ -90,10 +94,10 @@ header p {
     color: #86c4e0;
 }
 
-.content button {
-    background-color: #bcbcbc; /* Green */
+.admin-button {
+    background-color: black; /* Green */
   border: none;
-  color: black;
+  color: aliceblue;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -101,10 +105,70 @@ header p {
   font-size: 16px;
 }
 
-.content button:hover{
+.admin-button:hover{
     background-color: #86c4e0;
 }
 
 .edit-link {
     border: none;
+}
+
+.back-link {
+    color: black;
+    text-decoration: none;
+}
+
+.back-link:hover{
+    color: #86c4e0;
+}
+
+.edit-form {
+    padding-right: 30px;
+}
+
+.edit-form h3 {
+    background: #4D4D4D;
+	text-transform: uppercase;
+	font-family: 'Open Sans Condensed', sans-serif;
+	color: #797979;
+	font-size: 18px;
+	font-weight: 100;
+	padding: 20px;
+	margin: -30px -30px 30px -30px;
+}
+
+.edit-form input[type="text"],
+.edit-form input[type="date"],
+.edit-form input[type="datetime"],
+.edit-form input[type="email"],
+.edit-form input[type="number"],
+.edit-form input[type="search"],
+.edit-form input[type="time"],
+.edit-form input[type="url"],
+.edit-form input[type="password"],
+.edit-form textarea,
+.edit-form select
+{
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	outline: none;
+	display: block;
+	width: 100%;
+	padding: 7px;
+	border: none;
+	border-bottom: 1px solid #ddd;
+	background: transparent;
+	margin-bottom: 25px;
+	font: 16px Arial, Helvetica, sans-serif;
+	height: 45px;
+}
+
+.edit-form input[type="checkbox"] {
+    padding: 7px;
+    margin-bottom: 25px;
+}
+
+.edit-form label {
+    color: #797979;
 }

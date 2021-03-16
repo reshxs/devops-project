@@ -4,17 +4,19 @@
 <ul>
     {% if product %}
     <h3>Редактировать</h3>
-    <form method="post">
-        <label for="name">Название: </label>
-        <input id="name" name="name" value="{{product.product_name}}">
-        <label for="description">Описание: </label>
-        <input id="description" name="description" type="text" value="{{product.product_description}}">
-        <label for="price">Цена: </label>
-        <input id="price" name="price" type="number" value="{{product.product_price}}">
-        <label for="on_sale">Выставить на продажу: </label>
-        <input id="on_sale" name="on_sale" type="checkbox" {% if not product.product_moderationg%} checked {% endif %}>
-        <input type="submit" value="Сохранить">
-    </form>
+    <div class="edit-form">
+        <form method="post">
+            <label for="name">Название: </label>
+            <input id="name" name="name" type="text" value="{{product.product_name}}">
+            <label for="description">Описание: </label>
+            <input id="description" name="description" type="text" value="{{product.product_description}}">
+            <label for="price">Цена: </label>
+            <input id="price" name="price" type="text" value="{{product.product_price}}">
+            <label for="on_sale">Выставить на продажу: </label>
+            <input id="on_sale" name="on_sale" type="checkbox" {% if not product.product_moderationg%} checked {% endif %}>
+            <input class="admin-button" type="submit" value="Сохранить">
+        </form>
+    </div>
     {% endif %}
 </ul>
 {% endblock%}

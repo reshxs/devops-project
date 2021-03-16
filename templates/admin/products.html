@@ -2,12 +2,18 @@
 {% set title = "Товары - панель администратора"%}
 {% block content %}
 <ul>
+    <li><h3>Товары: </h3></li>
+    <li>
+        <a class="edit-link" href="{{url('admin_product_create')}}">
+            <button class="admin-button">Создать</button>
+        </a>
+    </li>
     {% for product in products %}
-    <li><a class="list-link" href="{{url('admin_product_details', id=product.product_id)}}">
-        {{product.product_name}}
-    </a></li>
+    <li>
+        <a class="list-link" href="{{url('admin_product_details', id=product.product_id)}}">
+            {{product.product_name}}
+        </a>
+    </li>
     {% endfor %}
-    {% block details%}
-    {% endblock %}
 </ul>
 {% endblock %}
