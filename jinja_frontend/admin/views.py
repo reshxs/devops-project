@@ -74,14 +74,15 @@ async def admin_user_create(request):
 @aiohttp_jinja2.template('admin.user_create.html')
 async def admin_user_create_post(request):
     objects = request.app.objects
-    form = request.post()
+    form = await request.post()
     user = await objects.create(User,
                                 user_name=form['name'],
                                 user_surname=form['surname'],
                                 user_email=form['email'],
                                 user_phone=form['phone'],
                                 user_password=hash_password(form['password']))
-    location = request.app.router['admin_user_details'].url_for(user.user_id)
+    # todo: fix redirect
+    location = request.app.router['admin_user_details'].url_for(id=user.user_id)
     raise web.HTTPFound(location)
 
 
@@ -155,7 +156,7 @@ async def admin_product_create_post(request):
                                    product_price=float(form.get('price')),
                                    product_moderating=False if on_sale else True)
 
-    location = request.app.router['products'].url_for()
+    location = request.app.router['admin_products'].url_for()
     raise web.HTTPFound(location)
 
 
@@ -178,4 +179,26 @@ async def admin_user_delete_post(request):
     await objects.delete(user)
 
     location = request.app.router['admin_users'].url_for()
+    raise web.HTTPFound(location)
+
+
+@view_admin_required
+@aiohttp_jinja2.template('admin/product_delete.html')
+async def admin_product_delete(request):
+    product_id = request.match_info['id']
+    objects = request.app.objects
+    product = await objects.get(Product, product_id=product_id)
+    return {'product': product}
+
+
+@view_admin_required
+@aiohttp_jinja2.template('admin/product_delete.html')
+async def admin_product_delete_post(request):
+    objects = request.app.objects
+    form = await request.post()
+    product_id = form.get('product_id')
+    product = await objects.get(Product, product_id=product_id)
+    await objects.delete(product)
+
+    location = request.app.router['admin_products'].url_for()
     raise web.HTTPFound(location)
