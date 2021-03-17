@@ -10,7 +10,8 @@
     <p>Цена: {{product.product_price}}</p>
     <p>Товар на продаже: {{not product.product_moderating}}</p>
     <a class="edit-link" href="{{url('admin_product_edit', id=product.product_id)}}">
-        <button class="admin-button">Редактировать</button></a>
+        <button class="admin-button">Редактировать</button>
+    </a>
     {% endif %}
 </ul>
 </div>
