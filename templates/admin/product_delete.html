@@ -1,0 +1,17 @@
+{% extends "admin/index.html" %}
+{% block content %}
+<ul>
+    {% if product %}
+    <a class="back-link" href="{{url('admin_product_details', id=product.product_id)}}">< Назад</a>
+    <h3>Вы действительно хотите удалить пользователя
+        <span class="delete-instance">
+            {{product.product_name}}
+        </span>?
+    </h3>
+        <form method="post">
+            <input hidden id="product_id" name="product_id" value="{{product.product_id}}">
+            <input type="submit" class="admin-button warning-button" value="Удалить">
+        </form>
+</ul>
+    {% endif %}
+{% endblock %}

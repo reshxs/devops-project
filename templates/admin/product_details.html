@@ -12,6 +12,9 @@
     <a class="edit-link" href="{{url('admin_product_edit', id=product.product_id)}}">
         <button class="admin-button">Редактировать</button>
     </a>
+    <a class="edit-link" href="{{url('admin_product_delete', id=product.product_id)}}">
+        <button class="admin-button warning-button">Удалить</button>
+    </a>
     {% endif %}
 </ul>
 </div>

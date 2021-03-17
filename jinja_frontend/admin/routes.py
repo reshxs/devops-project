@@ -17,3 +17,5 @@ def setup_admin_routes(app):
     app.router.add_post("/admin/users/create", admin_user_create_post)
     app.router.add_get("/admin/users/{id}/delete", admin_user_delete, name="admin_user_delete")
     app.router.add_post("/admin/users/{id}/delete", admin_user_delete_post)
+    app.router.add_get("/admin/products/{id}/delete", admin_product_delete, name="admin_product_delete")
+    app.router.add_post("/admin/products/{id}/delete", admin_product_delete_post)
