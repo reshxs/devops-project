@@ -7,4 +7,4 @@ from auth.utils import match_password
 
 @aiohttp_jinja2.template('auth/login.html')
 async def login(request):
-    return {}
+    return {'next_url': '/'}

@@ -10,7 +10,11 @@
     <p>Телефон: {{user.user_phone}}</p>
     <p>Админ: {{user.user_is_admin}}</p>
     <a class="edit-link" href="{{url('admin_user_edit', id=user.user_id)}}">
-        <button class="admin-button">Редактировать</button></a>
+        <button class="admin-button">Редактировать</button>
+    </a>
+    <a class="edit-link" href="{{url('admin_user_delete', id=user.user_id)}}">
+        <button class="admin-button">Удалить</button>
+    </a>
     {% endif %}
 </ul>
 {% endblock%}

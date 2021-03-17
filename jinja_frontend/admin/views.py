@@ -157,3 +157,25 @@ async def admin_product_create_post(request):
 
     location = request.app.router['products'].url_for()
     raise web.HTTPFound(location)
+
+
+@view_admin_required
+@aiohttp_jinja2.template('admin/user_delete.html')
+async def admin_user_delete(request):
+    user_id = request.match_info['id']
+    objects = request.app.objects
+    user = await objects.get(User, user_id=user_id)
+    return {'user': user}
+
+
+@view_admin_required
+@aiohttp_jinja2.template('admin/user_delete.html')
+async def admin_user_delete_post(request):
+    objects = request.app.objects
+    form = await request.post()
+    user_id = form.get('user_id')
+    user = await objects.get(User, user_id=user_id)
+    await objects.delete(user)
+
+    location = request.app.router['admin_users'].url_for()
+    raise web.HTTPFound(location)

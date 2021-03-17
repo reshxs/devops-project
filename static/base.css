@@ -109,6 +109,10 @@ header p {
     background-color: #86c4e0;
 }
 
+.warning-button:hover{
+    background-color: indianred;
+}
+
 .edit-link {
     border: none;
 }

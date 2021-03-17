@@ -2,6 +2,9 @@
 {% block body %}
 <div class="login-page">
     <link rel="stylesheet" href="/static/auth/login.css">
+
+    <input hidden id="next_url" value="{{next_url}}">
+
     <center><input id="email-input" type="text" placeholder="Email"></center>
     <center><input id="password-input" type="password" placeholder="Password"></center>
     <button id="login-button">Войти</button>
@@ -11,6 +14,9 @@
     let button = document.querySelector('#login-button')
     let emailInput = document.querySelector('#email-input')
     let passwordInput = document.querySelector('#password-input')
+    let next_url_input = document.querySelector('#next_url')
+    let next_url = next_url_input.value
+    console.log(next_url)
 
     button.onclick = async function () {
         let email = emailInput.value;
@@ -32,7 +38,7 @@
         let result = await response.json()
         console.log(result)
         if(result.result != null){
-            window.location.replace("http://127.0.0.1:8080/")
+            window.location.replace(next_url)
         }
         else if(result.error){
             window.location.replace("http://127.0.0.1:8080/auth/login")
