@@ -29,7 +29,7 @@ async def init_app(loop: asyncio.AbstractEventLoop):
     mc_conf = conf["memcached"]
     sessions_conf = conf["sessions"]
     mc = aiomcache.Client(mc_conf["host"], mc_conf["port"], loop=loop)
-    setup_sessions(app, MemcachedStorage(mc,max_age=sessions_conf['max_age']))
+    setup_sessions(app, MemcachedStorage(mc, max_age=sessions_conf['max_age']))
 
     # Setting up database
     app.database = database

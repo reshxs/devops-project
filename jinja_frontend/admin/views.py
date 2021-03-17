@@ -82,7 +82,7 @@ async def admin_user_create_post(request):
                                 user_phone=form['phone'],
                                 user_password=hash_password(form['password']))
     # todo: fix redirect
-    location = request.app.router['admin_user_details'].url_for(id=user.user_id)
+    location = request.app.router['admin_user_details'].url_for(id=str(user.user_id))
     raise web.HTTPFound(location)
 
 
