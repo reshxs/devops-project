@@ -1,11 +1,17 @@
 {% extends "admin/index.html" %}
 {% block content %}
+<ul>
     <a class="back-link" href="{{url('admin_user_details', id=user.user_id)}}">< Назад</a>
     {% if user %}
-        <h3>Вы действительно хотите удалить пользователя {{user.user_email}}?</h3>
+    <h3>Вы действительно хотите удалить пользователя
+        <span class="delete-instance">
+            {{user.user_email}}
+        </span>?
+    </h3>
         <form method="post">
             <input hidden id="user_id" name="user_id" value="{{user.user_id}}">
             <input type="submit" class="admin-button warning-button" value="Удалить">
         </form>
+</ul>
     {% endif %}
 {% endblock %}

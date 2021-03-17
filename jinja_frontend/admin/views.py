@@ -74,7 +74,7 @@ async def admin_user_create(request):
 @aiohttp_jinja2.template('admin.user_create.html')
 async def admin_user_create_post(request):
     objects = request.app.objects
-    form = request.post()
+    form = await request.post()
     user = await objects.create(User,
                                 user_name=form['name'],
                                 user_surname=form['surname'],
@@ -169,6 +169,7 @@ async def admin_user_delete(request):
 
 
 @view_admin_required
+@aiohttp_jinja2.template('admin/user_delete.html')
 @aiohttp_jinja2.template('admin/user_delete.html')
 async def admin_user_delete_post(request):
     objects = request.app.objects

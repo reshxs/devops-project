@@ -13,6 +13,11 @@ header {
     padding-top: 0.01rem;
     padding-bottom: 0.01rem;
     box-shadow: 0 1px 5px 0 rgba(95,95,95,10);
+    position: fixed;
+    background-color: white;
+    z-index: 5;
+    top: 0;
+    width: 100%;
 }
 
 header p {
@@ -57,18 +62,21 @@ header p {
     color: #86c4e0;
 }
 
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
 .content {
     margin-top: 120px;
     margin-left: 160px;
     height: 100%;
     width: 400px;
-    position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
     overflow-x: hidden;
     padding-top: 20px;
-    border-right: 1px solid #bcbcbc;
 }
 
 .content ul {
@@ -175,4 +183,8 @@ header p {
 
 .edit-form label {
     color: #797979;
+}
+
+.delete-instance {
+    color: indianred;
 }
