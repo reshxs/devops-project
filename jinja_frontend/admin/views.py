@@ -81,8 +81,7 @@ async def admin_user_create_post(request):
                                 user_email=form['email'],
                                 user_phone=form['phone'],
                                 user_password=hash_password(form['password']))
-    # todo: fix redirect
-    location = request.app.router['admin_user_details'].url_for(id=user.user_id)
+    location = request.app.router['admin_user_details'].url_for(id=str(user.user_id))
     raise web.HTTPFound(location)
 
 
@@ -156,7 +155,7 @@ async def admin_product_create_post(request):
                                    product_price=float(form.get('price')),
                                    product_moderating=False if on_sale else True)
 
-    location = request.app.router['admin_products'].url_for()
+    location = request.app.router['admin_product_details'].url_for(id=str(product.product_id))
     raise web.HTTPFound(location)
 
 
