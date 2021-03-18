@@ -1,13 +1,13 @@
 {% extends "base.html"%}
 {% block body %}
 <div class="login-page">
-    <link rel="stylesheet" href="/static/auth/login.css">
 
     <input hidden id="next_url" value="{{next_url}}">
-
+    <div class="login-page edit-form">
     <center><input id="email-input" type="text" placeholder="Email"></center>
     <center><input id="password-input" type="password" placeholder="Password"></center>
-    <button id="login-button">Войти</button>
+    <button class="admin-button" id="login-button">Войти</button>
+    </div>
 </div>
 
 <script type="text/javascript">

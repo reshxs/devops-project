@@ -188,3 +188,12 @@ header p {
 .delete-instance {
     color: indianred;
 }
+
+
+.login-page {
+    text-align: center;
+    margin-top: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+}
