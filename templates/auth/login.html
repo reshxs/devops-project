@@ -4,45 +4,14 @@
     <input hidden id="next_url" value="{{next_url}}">
     <div class="login-page edit-form">
         <h1>Авторизация</h1>
+        <div class="login-error"></div>
         <center><input id="email-input" type="text" placeholder="Email"></center>
         <center><input id="password-input" type="password" placeholder="Password"></center>
         <button class="admin-button" id="login-button">Войти</button>
     </div>
 </div>
 
-<script type="text/javascript">
-    let button = document.querySelector('#login-button')
-    let emailInput = document.querySelector('#email-input')
-    let passwordInput = document.querySelector('#password-input')
-    let next_url_input = document.querySelector('#next_url')
-    let next_url = next_url_input.value
-    console.log(next_url)
+<script type="text/javascript" src="/static/js/login.js">
 
-    button.onclick = async function () {
-        let email = emailInput.value;
-        let password = passwordInput.value;
-        let request = {
-            "jsonrpc": "2.0",
-            "method": "login",
-            "params": [{
-                "email": email,
-                "password": password
-            }],
-            "id": "login"
-        };
-
-        let response = await fetch('http://127.0.0.1:8080/api/v1/jsonrpc', {
-            method: "POST",
-            body: JSON.stringify(request)
-        });
-        let result = await response.json()
-        console.log(result)
-        if(result.result != null){
-            window.location.replace(next_url)
-        }
-        else if(result.error){
-            window.location.replace("http://127.0.0.1:8080/auth/login")
-        }
-    };
 </script>
 {% endblock %}

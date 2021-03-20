@@ -197,3 +197,7 @@ header p {
     margin-right: auto;
     width: 400px;
 }
+
+.login-error {
+    color: red;
+}
