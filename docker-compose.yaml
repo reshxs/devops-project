@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    ports:
+    - "8080:8080"
+    environment:
+      MEMCAHED_PORT: "11211"
+      MEMCACHED_HOST: "memcached"
+      DB_HOST: "db"
+    depends_on:
+      - memcached
+      - db
+
+  memcached:
+    image: memcached:latest
+    ports:
+      - "11211:11211"
+
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "password"

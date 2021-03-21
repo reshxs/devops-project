@@ -4,11 +4,16 @@ import pathlib
 import peewee_async
 import jinja2
 import aiohttp_jinja2
+import os
 
 from aiohttp import web
 import aiomcache
 from aiohttp_session.memcached_storage import MemcachedStorage
 from aiohttp_session import setup as setup_sessions
+
+from auth.models import User
+from cart.models import Cart, ProductAssignment
+from products.models import Product
 from utils import load_config
 from routes import setup_routes
 from common.db.db import database
@@ -26,14 +31,15 @@ async def init_app(loop: asyncio.AbstractEventLoop):
     app = web.Application(loop=loop)
 
     # Setting up sessions
-    mc_conf = conf["memcached"]
     sessions_conf = conf["sessions"]
-    mc = aiomcache.Client(mc_conf["host"], mc_conf["port"], loop=loop)
+    mc_host = os.environ["MEMCACHED_HOST"]
+    mc = aiomcache.Client(mc_host, 11211, loop=loop)
     setup_sessions(app, MemcachedStorage(mc, max_age=sessions_conf['max_age']))
 
     # Setting up database
     app.database = database
-    app.database.init(**conf['database'])
+    db_host = os.environ["DB_HOST"]
+    app.database.init("postgres", host=db_host, user="postgres", password="password")
     app.database.set_allow_sync(False)
     app.objects = peewee_async.Manager(app.database, loop=loop)
 
