@@ -41,7 +41,7 @@ async def add_to_cart(context, request):
         user = context['request_obj'].user
         cart = await objects.get_or_create(Cart, user=user)
         product = await objects.get(Product, product_id=product_id)
-        # todo: check why generates sync query
+        # todo: check why fucking peewee generates sync query
         with objects.allow_sync():
             await objects.create(ProductAssignment,
                                  cart=cart[0],
@@ -77,7 +77,7 @@ async def remove_from_cart(context, request):
         user = context['request_obj'].user
         cart = await objects.get(Cart, user=user)
         product = await objects.get(Product, product_id=product_id)
-        # todo: check why generates sync query
+        # todo: check why FUCKING peewee generates sync query
         with objects.allow_sync():
             product_assignment = await objects.get(ProductAssignment, cart=cart, product=product)
             await objects.delete(product_assignment)
@@ -98,11 +98,11 @@ async def get_cart(context):
     """
     # todo: writer tests
 
-    objects = context['objects']
+    objects = context['request_obj'].app.objects
     user = context['request_obj'].user
     cart = await objects.get_or_create(Cart, user=user)
     cart = cart[0]
-    # todo: check why query is sync
+    # todo: check why FUCKING query is sync
     with objects.allow_sync():
         product_assignments = await objects.execute(ProductAssignment.select().where(ProductAssignment.cart == cart))
 
