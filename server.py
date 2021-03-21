@@ -43,13 +43,6 @@ async def init_app(loop: asyncio.AbstractEventLoop):
     app.database.set_allow_sync(False)
     app.objects = peewee_async.Manager(app.database, loop=loop)
 
-    # TODO: REMOVE THIS SHIT
-    with app.objects.allow_sync():
-        Product.create_table(True)
-        User.create_table(True)
-        Cart.create_table(True)
-        ProductAssignment.create_table(True)
-
     app.middlewares.append(auth_middleware)
 
     # Setting up jinja
