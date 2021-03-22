@@ -104,17 +104,18 @@ header p {
 
 .admin-button {
     background-color: black; /* Green */
-  border: none;
-  color: aliceblue;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+    border: none;
+    color: aliceblue;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 
 .admin-button:hover{
     background-color: #86c4e0;
+    cursor: pointer;
 }
 
 .warning-button:hover{
@@ -192,7 +193,7 @@ header p {
 
 .login-page {
     text-align: center;
-    margin-top: 150px;
+    margin-top: 160px;
     margin-left: auto;
     margin-right: auto;
     width: 400px;

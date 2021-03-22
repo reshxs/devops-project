@@ -9,6 +9,7 @@ services:
       MEMCAHED_PORT: "11211"
       MEMCACHED_HOST: "memcached"
       DB_HOST: "db"
+      DB_PORT: "5432"
     depends_on:
       - memcached
       - db
