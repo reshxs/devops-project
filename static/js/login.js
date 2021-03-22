@@ -11,10 +11,10 @@
         let request = {
             "jsonrpc": "2.0",
             "method": "login",
-            "params": [{
+            "params": {
                 "email": email,
                 "password": password
-            }],
+            },
             "id": "login"
         };
 

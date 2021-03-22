@@ -4,12 +4,10 @@ from aiohttp import web
 
 def login_required(func):
     @wraps(func)
-    async def wrapped(context, request=None):
+    async def wrapped(context, **kwargs):
         request_obj = context['request_obj']
         if request_obj.user:
-            if request:
-                return await func(context, request)
-            return await func(context)
+            return await func(context, **kwargs)
         return {
             "message": "Auth required"
         }
@@ -20,12 +18,10 @@ def login_required(func):
 def admin_required(func):
     @login_required
     @wraps(func)
-    async def wrapped(context, request=None):
+    async def wrapped(context, **kwargs):
         request_obj = context['request_obj']
         if request_obj.user.user_is_admin:
-            if request:
-                return await func(context, request)
-            return await func(context)
+            return await func(context, **kwargs)
         return {
             "message": "Admin required"
         }
