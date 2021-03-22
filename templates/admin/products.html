@@ -8,6 +8,9 @@
             <button class="admin-button">Создать</button>
         </a>
     </li>
+    <li class="edit-form">
+        <input class="search-input" type="text" placeholder="Поиск">
+    </li>
     {% for product in products %}
     <li>
         <a class="list-link" href="{{url('admin_product_details', id=product.product_id)}}">
@@ -15,5 +18,6 @@
         </a>
     </li>
     {% endfor %}
+    <script type="text/javascript" src="/static/js/search.js"></script>
 </ul>
 {% endblock %}

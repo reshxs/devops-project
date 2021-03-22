@@ -10,10 +10,14 @@
             <button class="admin-button">Создать</button>
         </a>
     </li>
+    <li class="edit-form">
+        <input class="search-input" type="text" placeholder="Поиск">
+    </li>
     {% for user in users %}
     <li>
         <a class="list-link" href="{{url('admin_user_details', id=user.user_id)}}">{{user.user_email}}</a>
     </li>
     {% endfor %}
+    <script type="text/javascript" src="/static/js/search.js"></script>
 </ul>
 {% endblock%}
