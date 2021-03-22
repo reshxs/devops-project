@@ -201,3 +201,7 @@ header p {
 .login-error {
     color: red;
 }
+
+.hidden{
+    display: none;
+}
