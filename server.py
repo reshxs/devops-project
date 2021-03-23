@@ -20,12 +20,13 @@ PROJECT_ROOT = pathlib.Path(__file__).parent
 CONF_PATH = PROJECT_ROOT / 'config.json'
 
 
-async def init_app(loop: asyncio.AbstractEventLoop):
+def init_app():
     conf = load_config(CONF_PATH)
     host, port = conf["host"], conf["port"]
 
     # Creating an app
-    app = web.Application(loop=loop)
+    app = web.Application()
+    loop = app.loop
 
     # Setting up sessions
     sessions_conf = conf["sessions"]
@@ -58,6 +59,6 @@ async def init_app(loop: asyncio.AbstractEventLoop):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
 
-    loop = asyncio.get_event_loop()
-    app, host, port = loop.run_until_complete(init_app(loop))
+    app, host, port = init_app()
     web.run_app(app, host=host, port=port)
+    logging.info("Running")
