@@ -1,4 +1,7 @@
+import peewee
 from jsonrpcserver import method
+from jsonrpcserver.exceptions import ApiError
+
 from products.models import Product
 from auth.decorators import login_required, admin_required
 
@@ -32,11 +35,14 @@ async def moderating_products_list(context):
 
 @method
 @admin_required
-async def add_product(context, request):
+async def add_product(context, product_name, product_description, product_price, product_moderating):
     objects = context.get('objects')
-    inst = await objects.create(Product,
-                                product_name=request.get('product_name'),
-                                product_description=request.get('product_description'),
-                                product_price=request.get('product_price'),
-                                product_moderating=request.get('product_moderating'))
+    try:
+        inst = await objects.create(Product,
+                                    product_name=product_name,
+                                    product_description=product_description,
+                                    product_price=product_price,
+                                    product_moderating=product_moderating)
+    except peewee.IntegrityError as e:
+        raise ApiError(str(e))
     return inst.__dict__['__data__']

@@ -1,29 +1,26 @@
+import peewee
 from jsonrpcserver import method
-from jsonrpcserver.exceptions import InvalidParamsError
+from jsonrpcserver.exceptions import ApiError
 
 from auth.decorators import login_required
 from auth.models import User
 from cart.models import Cart, ProductAssignment
 from products.models import Product
 
-import sys
-
 
 @method
 @login_required
-async def add_to_cart(context, request):
+async def add_to_cart(context, product_id, count):
     """
     Example request:
     {
         "jsonrpc": "2.0",
         "method": "add_to_cart",
         "params":
-        [
-            {
-                "product_id": "foo",
-                "count": 2
-            }
-        ]
+        {
+            "product_id": "foo",
+            "count": 2
+        }
         "id": "bar"
     }
     """
@@ -31,40 +28,43 @@ async def add_to_cart(context, request):
     # todo: write tests
 
     objects = context['objects']
-    product_id = request.get("product_id", None)
-    count = request.get('count', None)
 
     if not product_id or not count:
-        raise InvalidParamsError('product_id or count is None')
+        raise ApiError('product_id or count is None')
 
     async with objects.atomic():
         user = context['request_obj'].user
         cart = await objects.get_or_create(Cart, user=user)
-        product = await objects.get(Product, product_id=product_id)
+        try:
+            product = await objects.get(Product, product_id=product_id)
+        except peewee.DoesNotExist as e:
+            raise ApiError(str(e))
+
         # todo: check why fucking peewee generates sync query
         with objects.allow_sync():
-            await objects.create(ProductAssignment,
-                                 cart=cart[0],
-                                 product=product,
-                                 count=count)
+            try:
+                await objects.create(ProductAssignment,
+                                     cart=cart[0],
+                                     product=product,
+                                     count=count)
+            except peewee.IntegrityError as e:
+                raise ApiError(str(e))
 
     return "added"
 
 
 @method
 @login_required
-async def remove_from_cart(context, request):
+async def remove_from_cart(context, product_id):
     """
     Example request:
     {
         "jsonrpc": "2.0",
         "method": "remove_from_cart",
         "params":
-        [
-            {
-                "product_id": "foo"
-            }
-        ]
+        {
+            "product_id": "foo"
+        }
         "id": "bar"
     }
     """
@@ -72,17 +72,21 @@ async def remove_from_cart(context, request):
     # todo: write tests
 
     objects = context['objects']
-    product_id = request.get('product_id', None)
     async with objects.atomic():
         user = context['request_obj'].user
-        cart = await objects.get(Cart, user=user)
-        product = await objects.get(Product, product_id=product_id)
-        # todo: check why FUCKING peewee generates sync query
-        with objects.allow_sync():
-            product_assignment = await objects.get(ProductAssignment, cart=cart, product=product)
-            await objects.delete(product_assignment)
+        try:
+            cart = await objects.get(Cart, user=user)
+            product = await objects.get(Product, product_id=product_id)
 
-    return "removed"
+            # todo: check why FUCKING peewee generates sync query
+            with objects.allow_sync():
+                product_assignment = await objects.get(ProductAssignment, cart=cart, product=product)
+                await objects.delete(product_assignment)
+
+        except peewee.DoesNotExist as e:
+            raise ApiError(str(e))
+
+    return f"removed {product_assignment.product.product_id}"
 
 
 @method

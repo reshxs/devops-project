@@ -1,3 +1,5 @@
+import peewee
+
 from aiohttp_session import get_session
 from auth.models import User
 
@@ -10,7 +12,10 @@ async def auth_middleware(app, handler):
         request.user = None
         # todo: check uid from session
         if 'user_id' in session:
-            request.user = await objects.get(User, user_id=session['user_id'])
+            try:
+                request.user = await objects.get(User, user_id=session['user_id'])
+            except peewee.DoesNotExist:
+                pass
 
         return await handler(request)
 
