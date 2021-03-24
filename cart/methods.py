@@ -1,12 +1,10 @@
 import peewee
+from aiohttp_session import get_session
 from jsonrpcserver import method
 from jsonrpcserver.exceptions import ApiError
-from aiohttp_session import get_session
+from playhouse.shortcuts import model_to_dict, dict_to_model
 
 from auth.decorators import login_required
-from playhouse.shortcuts import model_to_dict, dict_to_model
-from auth.models import User
-from cart.models import ProductAssignment
 from products.models import Product
 
 
@@ -36,10 +34,13 @@ async def add_to_cart(context, product_id, count):
         cart = session["cart"]
 
     if str(product_id) not in cart:
-        product = await objects.get(Product, product_id=product_id)
+        try:
+            product = await objects.get(Product, product_id=product_id)
+        except peewee.DoesNotExist:
+            raise ApiError(f"Product {product_id} does not exist")
         cart[product_id] = {
-                "product": model_to_dict(product),
-                "count": count
+            "product": model_to_dict(product),
+            "count": count
             }
     else:
         product_assignment = cart[str(product_id)]
@@ -69,11 +70,10 @@ async def remove_from_cart(context, product_id):
     # todo: write tests
 
     request = context['request_obj']
-    objects = request.app.objects
     session = await get_session(request)
 
     if 'cart' not in session:
-        raise ApiError("Cart does not exists. To create cart just add some product")
+        raise ApiError("Cart does not exist")
 
     cart = session["cart"]
     if str(product_id) not in cart:
@@ -87,6 +87,42 @@ async def remove_from_cart(context, product_id):
 
 @method
 @login_required
+async def change_product_count(context, product_id, count):
+    """
+    Example request:
+    {
+        "jsonrpc": "2.0",
+        "method": "change_product_count",
+        "params":
+        {
+            "product_id": "foo",
+            "product_count": 3
+        },
+        "id": "bar"
+    }
+    """
+
+    # todo: write tests
+
+    request = context["request_obj"]
+    session = await get_session(request)
+    if 'cart' not in session:
+        raise ApiError("Cart does not exist")
+
+    cart = session['cart']
+    if str(product_id) not in cart:
+        raise ApiError(f"Product with id '{product_id}' not in cart")
+
+    product = cart[str(product_id)]
+    product["count"] = count
+    cart[str(product_id)] = product
+    session["cart"] = cart
+
+    return f"Set count {count} for product {product_id}"
+
+
+@method
+@login_required
 async def get_cart(context):
     """
     Example request:
@@ -96,7 +132,7 @@ async def get_cart(context):
         "id": "foo"
     }
     """
-    # todo: writer tests
+    # todo: write tests
 
     request = context['request_obj']
     session = await get_session(request)
