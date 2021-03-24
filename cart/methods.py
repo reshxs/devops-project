@@ -31,17 +31,15 @@ async def add_to_cart(context, product_id, count):
     request = context['request_obj']
     objects = request.app.objects
     session = await get_session(request)
-    cart = []
+    cart = {}
     if "cart" in session:
         cart = session["cart"]
 
     product = await objects.get(Product, product_id=product_id)
-    cart.append(
-        {
+    cart[product_id] = {
             "product": model_to_dict(product),
             "count": count
         }
-    )
     session["cart"] = cart
     return f"{product.product_name}({product.product_id}) added to cart"
 
@@ -72,13 +70,10 @@ async def remove_from_cart(context, product_id):
         raise ApiError("Cart does not exists. To create cart just add some product")
 
     cart = session["cart"]
-    p_ids = list(map(lambda s: s["product"]["product_id"], cart))
-    try:
-        index = p_ids.index(product_id)
-    except ValueError:
-        raise ApiError(f"{product_id} not in cart")
+    if str(product_id) not in cart:
+        raise ApiError(f"Product with id '{product_id}' not in cart")
 
-    item = cart.pop(index)
+    item = cart.pop(str(product_id))
     product = dict_to_model(Product, item["product"])
     session["cart"] = cart
     return f"{product.product_name}({product.product_id}) removed from cart"
