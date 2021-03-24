@@ -20,18 +20,18 @@ PROJECT_ROOT = pathlib.Path(__file__).parent
 CONF_PATH = PROJECT_ROOT / 'config.json'
 
 
-async def init_app(loop: asyncio.AbstractEventLoop):
+def init_app():
     conf = load_config(CONF_PATH)
     host, port = conf["host"], conf["port"]
 
     # Creating an app
-    app = web.Application(loop=loop)
+    app = web.Application()
 
     # Setting up sessions
     sessions_conf = conf["sessions"]
     mc_host = os.environ["MEMCACHED_HOST"]
     logging.log(logging.DEBUG, f"connecting to memcached at {mc_host}:{11211}")
-    mc = aiomcache.Client(mc_host, 11211, loop=loop)
+    mc = aiomcache.Client(mc_host, 11211)
     setup_sessions(app, MemcachedStorage(mc, max_age=sessions_conf['max_age']))
 
     # Setting up database
@@ -41,7 +41,7 @@ async def init_app(loop: asyncio.AbstractEventLoop):
     logging.log(logging.DEBUG, f"connecting to db at {db_host}:{db_port}")
     app.database.init("postgres", host=db_host, port=db_port, user="postgres", password="password")
     app.database.set_allow_sync(False)
-    app.objects = peewee_async.Manager(app.database, loop=loop)
+    app.objects = peewee_async.Manager(app.database)
 
     app.middlewares.append(auth_middleware)
 
@@ -58,6 +58,6 @@ async def init_app(loop: asyncio.AbstractEventLoop):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
 
-    loop = asyncio.get_event_loop()
-    app, host, port = loop.run_until_complete(init_app(loop))
+    app, host, port = init_app()
     web.run_app(app, host=host, port=port)
+    logging.info("Running")
