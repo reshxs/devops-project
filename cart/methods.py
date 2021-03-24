@@ -1,10 +1,12 @@
 import peewee
 from jsonrpcserver import method
 from jsonrpcserver.exceptions import ApiError
+from aiohttp_session import get_session
 
 from auth.decorators import login_required
+from playhouse.shortcuts import model_to_dict, dict_to_model
 from auth.models import User
-from cart.models import Cart, ProductAssignment
+from cart.models import ProductAssignment
 from products.models import Product
 
 
@@ -26,31 +28,22 @@ async def add_to_cart(context, product_id, count):
     """
 
     # todo: write tests
+    request = context['request_obj']
+    objects = request.app.objects
+    session = await get_session(request)
+    cart = []
+    if "cart" in session:
+        cart = session["cart"]
 
-    objects = context['objects']
-
-    if not product_id or not count:
-        raise ApiError('product_id or count is None')
-
-    async with objects.atomic():
-        user = context['request_obj'].user
-        cart = await objects.get_or_create(Cart, user=user)
-        try:
-            product = await objects.get(Product, product_id=product_id)
-        except peewee.DoesNotExist as e:
-            raise ApiError(str(e))
-
-        # todo: check why fucking peewee generates sync query
-        with objects.allow_sync():
-            try:
-                await objects.create(ProductAssignment,
-                                     cart=cart[0],
-                                     product=product,
-                                     count=count)
-            except peewee.IntegrityError as e:
-                raise ApiError(str(e))
-
-    return "added"
+    product = await objects.get(Product, product_id=product_id)
+    cart.append(
+        {
+            "product": model_to_dict(product),
+            "count": count
+        }
+    )
+    session["cart"] = cart
+    return f"{product.product_name}({product.product_id}) added to cart"
 
 
 @method
@@ -71,22 +64,24 @@ async def remove_from_cart(context, product_id):
 
     # todo: write tests
 
-    objects = context['objects']
-    async with objects.atomic():
-        user = context['request_obj'].user
-        try:
-            cart = await objects.get(Cart, user=user)
-            product = await objects.get(Product, product_id=product_id)
+    request = context['request_obj']
+    objects = request.app.objects
+    session = await get_session(request)
 
-            # todo: check why FUCKING peewee generates sync query
-            with objects.allow_sync():
-                product_assignment = await objects.get(ProductAssignment, cart=cart, product=product)
-                await objects.delete(product_assignment)
+    if 'cart' not in session:
+        raise ApiError("Cart does not exists. To create cart just add some product")
 
-        except peewee.DoesNotExist as e:
-            raise ApiError(str(e))
+    cart = session["cart"]
+    p_ids = list(map(lambda s: s["product"]["product_id"], cart))
+    try:
+        index = p_ids.index(product_id)
+    except ValueError:
+        raise ApiError(f"{product_id} not in cart")
 
-    return f"removed {product_assignment.product.product_id}"
+    item = cart.pop(index)
+    product = dict_to_model(Product, item["product"])
+    session["cart"] = cart
+    return f"{product.product_name}({product.product_id}) removed from cart"
 
 
 @method
@@ -102,22 +97,8 @@ async def get_cart(context):
     """
     # todo: writer tests
 
-    objects = context['request_obj'].app.objects
-    user = context['request_obj'].user
-    cart = await objects.get_or_create(Cart, user=user)
-    cart = cart[0]
-    # todo: check why FUCKING query is sync
-    with objects.allow_sync():
-        product_assignments = await objects.execute(ProductAssignment.select().where(ProductAssignment.cart == cart))
-
-        result = list()
-
-        # todo: check why related object call is sync
-        for product in map(lambda pa: pa.product, product_assignments):
-            result.append({
-                'product_id': product.product_id,
-                'product_name': product.product_name,
-                'product_price': product.product_price
-            })
-
-    return result
+    request = context['request_obj']
+    session = await get_session(request)
+    if 'cart' not in session:
+        raise ApiError("Cart does not exists")
+    return session['cart']
