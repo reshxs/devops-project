@@ -26,13 +26,12 @@ def init_app():
 
     # Creating an app
     app = web.Application()
-    loop = app.loop
 
     # Setting up sessions
     sessions_conf = conf["sessions"]
     mc_host = os.environ["MEMCACHED_HOST"]
     logging.log(logging.DEBUG, f"connecting to memcached at {mc_host}:{11211}")
-    mc = aiomcache.Client(mc_host, 11211, loop=loop)
+    mc = aiomcache.Client(mc_host, 11211)
     setup_sessions(app, MemcachedStorage(mc, max_age=sessions_conf['max_age']))
 
     # Setting up database
@@ -42,7 +41,7 @@ def init_app():
     logging.log(logging.DEBUG, f"connecting to db at {db_host}:{db_port}")
     app.database.init("postgres", host=db_host, port=db_port, user="postgres", password="password")
     app.database.set_allow_sync(False)
-    app.objects = peewee_async.Manager(app.database, loop=loop)
+    app.objects = peewee_async.Manager(app.database)
 
     app.middlewares.append(auth_middleware)
 
