@@ -35,13 +35,19 @@ async def add_to_cart(context, product_id, count):
     if "cart" in session:
         cart = session["cart"]
 
-    product = await objects.get(Product, product_id=product_id)
-    cart[product_id] = {
-            "product": model_to_dict(product),
-            "count": count
-        }
+    if str(product_id) not in cart:
+        product = await objects.get(Product, product_id=product_id)
+        cart[product_id] = {
+                "product": model_to_dict(product),
+                "count": count
+            }
+    else:
+        product_assignment = cart[str(product_id)]
+        product_assignment['count'] = int(product_assignment["count"]) + count
+        cart[str(product_id)] = product_assignment
+
     session["cart"] = cart
-    return f"{product.product_name}({product.product_id}) added to cart"
+    return f"'{product_id}' added to cart"
 
 
 @method
