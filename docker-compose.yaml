@@ -25,3 +25,12 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: "password"
+    volumes:
+      - ./src:/var/database
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
