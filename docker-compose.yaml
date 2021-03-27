@@ -6,18 +6,18 @@ services:
     ports:
     - "8080-8081:8080"
     environment:
-      MEMCAHED_PORT: "11211"
       MEMCACHED_HOST: "memcached"
       DB_HOST: "db"
       DB_PORT: "5432"
     depends_on:
       - memcached
       - db
+    volumes:
+      - ./templates:/usr/src/app/templates
+      - ./static:/usr/src/app/static
 
   memcached:
     image: memcached:latest
-    ports:
-      - "11211:11211"
 
   db:
     image: postgres
