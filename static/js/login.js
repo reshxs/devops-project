@@ -18,7 +18,7 @@
             "id": "login"
         };
 
-        let response = await fetch('http://0.0.0.0:8080/api/v1/jsonrpc', {
+        let response = await fetch('http://localhost:80/api/v1/jsonrpc', {
             method: "POST",
             body: JSON.stringify(request)
         });
