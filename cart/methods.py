@@ -25,7 +25,6 @@ async def add_to_cart(context, product_id, count):
     }
     """
 
-    # todo: write tests
     request = context['request_obj']
     objects = request.app.objects
     session = await get_session(request)
@@ -67,8 +66,6 @@ async def remove_from_cart(context, product_id):
     }
     """
 
-    # todo: write tests
-
     request = context['request_obj']
     session = await get_session(request)
 
@@ -102,8 +99,6 @@ async def change_product_count(context, product_id, count):
     }
     """
 
-    # todo: write tests
-
     request = context["request_obj"]
     session = await get_session(request)
     if 'cart' not in session:
@@ -132,7 +127,6 @@ async def get_cart(context):
         "id": "foo"
     }
     """
-    # todo: write tests
 
     request = context['request_obj']
     session = await get_session(request)

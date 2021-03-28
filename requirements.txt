@@ -1,10 +1,13 @@
 aiohttp==3.7.4
 aiohttp-jinja2==1.4.2
 aiohttp-session==2.9.0
-peewee-async~=0.6
+peewee-async==0.7.1
 jsonrpcserver==4.2.0
 bcrypt==3.2.0
 peewee==3.14.2
 Jinja2==2.11.3
 aiomcache==0.6.0
-aiopg
+aiopg==1.1.0
+pytest==6.2.2
+pytest-aiohttp==0.3.0
+pytest-mock==3.5.1
