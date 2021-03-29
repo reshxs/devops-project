@@ -15,3 +15,23 @@ def test_match_password(test_input, expected):
     user = User()
     user.user_password = hash_password(pwd)
     assert match_password(user, eval("test_input")) == expected
+
+
+def test_login(client):
+    # todo: Implement test
+    assert False, "Implement this test"
+
+
+def test_login_when_user_does_not_exists(client):
+    # todo: Implement test
+    assert False, "Implement this test"
+
+
+def test_login_when_password_is_wrong(client):
+    # todo: Implement test
+    assert False, "Implement this test"
+
+
+def test_register(client):
+    # todo: Implement test
+    assert False, "Implement this test"
