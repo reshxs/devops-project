@@ -1,5 +1,6 @@
 from functools import wraps
 from aiohttp import web
+from jsonrpcserver.exceptions import ApiError
 
 
 def login_required(func):
@@ -8,9 +9,7 @@ def login_required(func):
         request_obj = context['request_obj']
         if request_obj.user:
             return await func(context, **kwargs)
-        return {
-            "message": "Auth required"
-        }
+        raise ApiError("Auth required")
 
     return wrapped
 
@@ -22,9 +21,7 @@ def admin_required(func):
         request_obj = context['request_obj']
         if request_obj.user.user_is_admin:
             return await func(context, **kwargs)
-        return {
-            "message": "Admin required"
-        }
+        raise ApiError("Admin required")
 
     return wrapped
 

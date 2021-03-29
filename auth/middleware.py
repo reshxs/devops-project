@@ -10,7 +10,6 @@ async def auth_middleware(app, handler):
     async def middleware(request):
         session = await get_session(request)
         request.user = None
-        # todo: check uid from session
         if 'user_id' in session:
             try:
                 request.user = await objects.get(User, user_id=session['user_id'])
