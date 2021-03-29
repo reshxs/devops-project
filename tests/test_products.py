@@ -71,6 +71,7 @@ async def test_add_product_with_no_admin(client):
     assert data['error']['message'] == 'Admin required'
 
 
+# todo: add more invalid values
 @pytest.mark.parametrize("name, description, price", [
     ('new', 'desc', 'string')
 ])

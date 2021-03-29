@@ -1,7 +1,7 @@
 import peewee
 from aiohttp_session import get_session
 from jsonrpcserver import method
-from jsonrpcserver.exceptions import ApiError
+from jsonrpcserver.exceptions import ApiError, InvalidParamsError
 from playhouse.shortcuts import model_to_dict, dict_to_model
 
 from auth.decorators import login_required
@@ -24,6 +24,9 @@ async def add_to_cart(context, product_id, count):
         "id": "bar"
     }
     """
+
+    if not isinstance(count, int) or count <= 0:
+        raise InvalidParamsError()
 
     request = context['request_obj']
     objects = request.app.objects
@@ -98,6 +101,8 @@ async def change_product_count(context, product_id, count):
         "id": "bar"
     }
     """
+    if not isinstance(count, int) or count <= 0:
+        raise InvalidParamsError()
 
     request = context["request_obj"]
     session = await get_session(request)
