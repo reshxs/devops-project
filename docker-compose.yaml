@@ -13,8 +13,8 @@ services:
       - memcached
       - db
     volumes:
-      - ./templates:/usr/src/app/templates
-      - ./static:/usr/src/app/static
+      - ./frontend/templates:/usr/src/app/frontend/templates
+      - ./frontend/static:/usr/src/app/frontend/static
 
   memcached:
     image: memcached:latest

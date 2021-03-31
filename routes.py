@@ -2,8 +2,8 @@ from aiohttp import web
 import pathlib
 from web.health import health
 from web.jrpc_handler import JrpcHandler
-from jinja_frontend.auth.views import *
-from jinja_frontend.admin.routes import setup_admin_routes
+from frontend.auth.views import *
+from frontend.admin.routes import setup_admin_routes
 
 PROJECT_ROOT = pathlib.Path(__file__).parent
 
@@ -17,6 +17,6 @@ def setup_routes(app: web.Application):
     setup_admin_routes(app)
     app.router.add_get("/auth/login", login, name="login")
 
-    app.router.add_static('/static/', path=PROJECT_ROOT / 'static', name="static")
+    app.router.add_static('/static/', path=PROJECT_ROOT / 'frontend' / 'static', name="static")
 
 

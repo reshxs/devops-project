@@ -1,4 +1,4 @@
-from jinja_frontend.admin.views import *
+from frontend.admin.views import *
 
 
 def setup_admin_routes(app):
