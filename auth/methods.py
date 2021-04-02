@@ -10,7 +10,7 @@ from aiohttp_session import get_session
 
 @method
 async def login(context, email, password):
-    objects = context['objects']
+    objects = context['request_obj'].app['objects']
     request_obj = context['request_obj']
     try:
         user = await objects.get(User, user_email=email)
@@ -39,7 +39,7 @@ async def logout(context):
 
 @method
 async def register(context, user_name, user_surname, user_email, user_phone, user_password):
-    objects = context['objects']
+    objects = context['request_obj'].app['objects']
     try:
         user = await objects.create(User,
                                     user_name=user_name,

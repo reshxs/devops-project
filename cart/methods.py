@@ -29,7 +29,7 @@ async def add_to_cart(context, product_id, count):
         raise InvalidParamsError()
 
     request = context['request_obj']
-    objects = request.app.objects
+    objects = request.app['objects']
     session = await get_session(request)
     cart = {}
     if "cart" in session:

@@ -17,7 +17,7 @@ async def admin_index(request):
 @view_admin_required
 @aiohttp_jinja2.template('admin/users.html')
 async def admin_users(request):
-    objects = request.app.objects
+    objects = request.app['objects']
     users = await objects.execute(User.select())
     return {'users': users}
 
@@ -25,7 +25,7 @@ async def admin_users(request):
 @view_admin_required
 @aiohttp_jinja2.template('admin/user_details.html')
 async def admin_user_details(request):
-    objects = request.app.objects
+    objects = request.app['objects']
     user_id = request.match_info['id']
     user = await objects.get(User, user_id=user_id)
     return {
@@ -36,7 +36,7 @@ async def admin_user_details(request):
 @view_admin_required
 @aiohttp_jinja2.template('admin/user_edit.html')
 async def admin_user_edit(request):
-    objects = request.app.objects
+    objects = request.app['objects']
     user_id = request.match_info['id']
     user = await objects.get(User, user_id=user_id)
     return {'user': user}
@@ -45,7 +45,7 @@ async def admin_user_edit(request):
 @view_admin_required
 @aiohttp_jinja2.template('admin/user_edit.html')
 async def admin_user_edit_post(request):
-    objects = request.app.objects
+    objects = request.app['objects']
     user_id = request.match_info['id']
     user = await objects.get(User, user_id=user_id)
     form = await request.post()
@@ -73,7 +73,7 @@ async def admin_user_create(request):
 @view_admin_required
 @aiohttp_jinja2.template('admin.user_create.html')
 async def admin_user_create_post(request):
-    objects = request.app.objects
+    objects = request.app['objects']
     form = await request.post()
     user = await objects.create(User,
                                 user_name=form['name'],
@@ -88,7 +88,7 @@ async def admin_user_create_post(request):
 @view_admin_required
 @aiohttp_jinja2.template('admin/products.html')
 async def admin_products(request):
-    objects = request.app.objects
+    objects = request.app['objects']
     products = await objects.execute(Product.select())
     return {'products': products}
 
@@ -96,7 +96,7 @@ async def admin_products(request):
 @view_admin_required
 @aiohttp_jinja2.template('admin/product_details.html')
 async def admin_product_details(request):
-    objects = request.app.objects
+    objects = request.app['objects']
     product_id = request.match_info["id"]
     try:
         product = await objects.get(Product, product_id=product_id)
@@ -108,7 +108,7 @@ async def admin_product_details(request):
 @view_admin_required
 @aiohttp_jinja2.template('admin/product_edit.html')
 async def admin_product_edit(request):
-    objects = request.app.objects
+    objects = request.app['objects']
     product_id = request.match_info['id']
     product = await objects.get(Product, product_id=product_id)
     return {'product': product}
@@ -117,7 +117,7 @@ async def admin_product_edit(request):
 @view_admin_required
 @aiohttp_jinja2.template('admin/product_edit.html')
 async def admin_product_edit_post(request):
-    objects = request.app.objects
+    objects = request.app['objects']
     product_id = request.match_info['id']
     product = await objects.get(Product, product_id=product_id)
 
@@ -145,7 +145,7 @@ async def admin_product_create(request):
 @view_admin_required
 @aiohttp_jinja2.template('admin/product_create.html')
 async def admin_product_create_post(request):
-    objects = request.app.objects
+    objects = request.app['objects']
     form = await request.post()
 
     on_sale = form.get('is_moderating')
@@ -163,7 +163,7 @@ async def admin_product_create_post(request):
 @aiohttp_jinja2.template('admin/user_delete.html')
 async def admin_user_delete(request):
     user_id = request.match_info['id']
-    objects = request.app.objects
+    objects = request.app['objects']
     user = await objects.get(User, user_id=user_id)
     return {'user': user}
 
@@ -171,7 +171,7 @@ async def admin_user_delete(request):
 @view_admin_required
 @aiohttp_jinja2.template('admin/user_delete.html')
 async def admin_user_delete_post(request):
-    objects = request.app.objects
+    objects = request.app['objects']
     form = await request.post()
     user_id = form.get('user_id')
     user = await objects.get(User, user_id=user_id)
@@ -185,7 +185,7 @@ async def admin_user_delete_post(request):
 @aiohttp_jinja2.template('admin/product_delete.html')
 async def admin_product_delete(request):
     product_id = request.match_info['id']
-    objects = request.app.objects
+    objects = request.app['objects']
     product = await objects.get(Product, product_id=product_id)
     return {'product': product}
 
@@ -193,7 +193,7 @@ async def admin_product_delete(request):
 @view_admin_required
 @aiohttp_jinja2.template('admin/product_delete.html')
 async def admin_product_delete_post(request):
-    objects = request.app.objects
+    objects = request.app['objects']
     form = await request.post()
     product_id = form.get('product_id')
     product = await objects.get(Product, product_id=product_id)

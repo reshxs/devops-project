@@ -14,7 +14,6 @@ class JrpcHandler:
     async def handle(self, request: web.Request):
         request_text = await request.text()
         context = {
-            'objects': self.app.objects,
             'request_obj': request
         }
         response = await dispatch(request_text, context=context)

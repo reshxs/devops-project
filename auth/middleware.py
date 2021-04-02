@@ -5,7 +5,7 @@ from auth.models import User
 
 
 async def auth_middleware(app, handler):
-    objects = app.objects
+    objects = app['objects']
 
     async def middleware(request):
         session = await get_session(request)

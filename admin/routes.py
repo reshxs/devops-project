@@ -1,7 +1,8 @@
-from frontend.admin.views import *
+from aiohttp import web
+from admin.views import *
 
 
-def setup_admin_routes(app):
+def setup_admin_routes(app: web.Application):
     app.router.add_get("/admin", admin_index, name="admin_index")
     app.router.add_get("/admin/users", admin_users, name='admin_users')
     app.router.add_get("/admin/products", admin_products, name="admin_products")
