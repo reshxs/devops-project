@@ -3,7 +3,7 @@ import peewee
 from jsonrpcserver import method
 from jsonrpcserver.exceptions import InvalidParamsError, ApiError
 from auth.models import User
-from auth.utils import hash_password, match_password
+from auth.utils import hash_password, match_password, email_is_valid
 from auth.decorators import login_required
 from aiohttp_session import get_session
 
@@ -39,6 +39,9 @@ async def logout(context):
 
 @method
 async def register(context, user_name, user_surname, user_email, user_phone, user_password):
+    if not email_is_valid(user_email):
+        raise ApiError("Invalid email")
+
     objects = context['request_obj'].app['objects']
     try:
         user = await objects.create(User,
