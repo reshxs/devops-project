@@ -118,6 +118,11 @@ header p {
     cursor: pointer;
 }
 
+.admin-button:disabled {
+    background-color: #797979;
+    cursor: unset;
+}
+
 .warning-button:hover{
     background-color: indianred;
 }
