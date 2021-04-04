@@ -1,4 +1,4 @@
-let items = document.querySelectorAll('.list-link')
+let items = document.querySelectorAll('.search-item')
 let input = document.querySelector('.search-input')
 
 

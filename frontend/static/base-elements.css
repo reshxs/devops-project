@@ -1,0 +1,79 @@
+.admin-button {
+    background-color: black; /* Green */
+    border: none;
+    color: aliceblue;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.admin-button:hover{
+    background-color: #86c4e0;
+    cursor: pointer;
+}
+
+.admin-button:disabled {
+    background-color: #797979;
+    cursor: unset;
+}
+
+.warning-button:hover{
+    background-color: indianred;
+}
+
+.edit-form {
+    padding-right: 30px;
+}
+
+.edit-form h3 {
+    background: #4D4D4D;
+	text-transform: uppercase;
+	font-family: 'Open Sans Condensed', sans-serif;
+	color: #797979;
+	font-size: 18px;
+	font-weight: 100;
+	padding: 20px;
+	margin: -30px -30px 30px -30px;
+}
+
+.edit-form input[type="text"],
+.edit-form input[type="date"],
+.edit-form input[type="datetime"],
+.edit-form input[type="email"],
+.edit-form input[type="number"],
+.edit-form input[type="search"],
+.edit-form input[type="time"],
+.edit-form input[type="url"],
+.edit-form input[type="password"],
+.edit-form textarea,
+.edit-form select
+{
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	outline: none;
+	display: block;
+	width: 100%;
+	padding: 7px;
+	border: none;
+	border-bottom: 1px solid #ddd;
+	background: transparent;
+	margin-bottom: 25px;
+	font: 16px Arial, Helvetica, sans-serif;
+	height: 45px;
+}
+
+.edit-form input[type="checkbox"] {
+    padding: 7px;
+    margin-bottom: 25px;
+}
+
+.edit-form label {
+    color: #797979;
+}
+
+.hidden{
+    display: none;
+}

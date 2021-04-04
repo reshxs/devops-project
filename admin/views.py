@@ -155,7 +155,7 @@ async def admin_product_create_post(request):
                                    product_price=float(form.get('price')),
                                    product_moderating=False if on_sale else True)
 
-    location = request.app.router['admin_product_details'].url_for(id=str(product.product))
+    location = request.app.router['admin_product_details'].url_for(id=str(product.product_id))
     raise web.HTTPFound(location)
 
 

@@ -31,7 +31,7 @@ async def login(context, email, password):
 async def logout(context):
     request_obj = context['request_obj']
     session = await get_session(request_obj)
-    session.invalidate()
+    session["user_id"] = None
     return {
         "message": "logged out"
     }

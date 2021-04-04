@@ -15,7 +15,10 @@
     </li>
     {% for user in users %}
     <li>
-        <a class="list-link" href="{{url('admin_user_details', id=user.user_id)}}">{{user.user_email}}</a>
+        <a class="list-link search-item" href="{{url('admin_user_details', id=user.user_id)}}"
+           {% if user.user_is_admin %} style="border-color:lightskyblue" {%endif%}>
+            {{user.user_email}}
+        </a>
     </li>
     {% endfor %}
     <script type="text/javascript" src="/static/js/search.js"></script>
