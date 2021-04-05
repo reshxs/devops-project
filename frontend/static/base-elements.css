@@ -48,7 +48,8 @@
 .edit-form input[type="url"],
 .edit-form input[type="password"],
 .edit-form textarea,
-.edit-form select
+.edit-form select,
+.base-input
 {
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;

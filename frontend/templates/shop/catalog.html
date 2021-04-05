@@ -1,6 +1,14 @@
 {% extends "shop/index.html" %}
+{%block title%}Каталог{%endblock%}
 {% block content %}
-<ul class="catalog-list">
-</ul>
+<div class="content">
+    <h1>Каталог</h1>
+    <div class="edit-form" style="width: 400px">
+        <input class="search-input" type="text" placeholder="Поиск">
+    </div>
+    <ul class="catalog-list">
+    </ul>
+</div>
 <script type="text/javascript" src="static/js/catalog.js"></script>
+<script type="text/javascript" src="static/js/search.js"></script>
 {% endblock %}

@@ -17,24 +17,54 @@ window.onload = async function (){
         if(result.result != null){
             for (let product of result.result){
                 let listElement = document.createElement('li');
-                listElement.classList.add('product-card')
+                listElement.classList.add('product-card');
+                listElement.classList.add('search-item');
 
-                let title = document.createElement('p')
-                title.classList.add('product-title')
-                title.textContent = product.product_name
-                listElement.append(title)
+                let title = document.createElement('a');
+                title.href='#';
+                title.classList.add('product-title');
+                title.textContent = product.product_name;
+                listElement.append(title);
 
-                let price = document.createElement('p')
-                price.classList.add('product-price')
-                price.textContent = '$' + product.product_price
-                listElement.append(price)
+                let img = document.createElement('img');
+                img.src = "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-space-gray-select-201810?wid=904&hei=840&fmt=jpeg&qlt=80&.v=1603332211000";
+                img.width = "250";
+                listElement.append(img)
 
-                let cart_button = document.createElement('p')
-                cart_button.classList.add('catalog-add-to-card-button')
-                cart_button.textContent = 'В корзину'
-                listElement.append(cart_button)
+                let price = document.createElement('p');
+                price.classList.add('product-price');
+                price.textContent = '$' + product.product_price;
+                listElement.append(price);
 
-                catalogList.append(listElement)
+                let cart_button = document.createElement('p');
+                cart_button.classList.add('catalog-add-to-card-button');
+                cart_button.textContent = 'В корзину';
+                listElement.append(cart_button);
+                cart_button.onclick = async function() {
+                    let request = {
+                        "jsonrpc": "2.0",
+                        "method": "add_to_cart",
+                        "params": {
+                            "product_id": product.product_id,
+                            "count": 1
+                        },
+                        "id": "test"
+                    };
+
+                    let response = await fetch("http://localhost/api/v1/jsonrpc", {
+                        "method": "POST",
+                        "body": JSON.stringify(request)
+                    });
+
+                    let result = await response.json();
+                    if(result.result != null){
+                        window.location = "http://localhost/cart";
+                    } else {
+                        console.log(result.error.message)
+                    }
+                }
+
+                catalogList.append(listElement);
             }
         }
 }

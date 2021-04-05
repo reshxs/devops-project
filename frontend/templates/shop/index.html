@@ -1,22 +1,23 @@
 {% extends "base.html" %}
+{%block title%}Главная{%endblock%}
 {% block body %}
 <nav class="main-nav">
         <a class="main-nav-element" href="/catalog">Каталог</a>
-        <p class="main-nav-element">Корзина</p>
+        <a class="main-nav-element" href="/cart">Корзина</a>
         {% if not user %}
             <a class="main-nav-element" href="/auth/login">Вход</a>
             <a class="main-nav-element" href="/auth/register">Регистрация</a>
         {% else %}
-            <p class="main-nav-element">Профиль</p>
-            <p class="main-nav-element logout-button">Выйти</p>
+            <a class="main-nav-element" href="/profile">Профиль</a>
+            <a class="main-nav-element logout-button" href="#">Выйти</a>
             {% if user.user_is_admin%}
                 <a class="main-nav-element" href="/admin">Администратор</a>
             {% endif %}
         {% endif %}
-        <p class="main-nav-element">Поддрежка</p>
+        <a class="main-nav-element" href="/support">Поддрежка</a>
 </nav>
 {% block content %}
-<div class="index-content">
+<div class="content">
     <ul class="index-content-list">
         <div class="container">
             <li class="index-content-element">
@@ -25,16 +26,18 @@
         </div>
         <div class="container">
             <li class="index-content-element">
-                <h1>Добро пожаловать в наш магазинчик техники</h1>
-                <p>
-                    Если ты не купишь что-то, я приду к тебе ночью =)
+                <h2 class="index-content-heading">Добро пожаловать в наш магазин</h2>
+                <p class="index-content-text">
+                    Я еще не решил что буду продавать, но если ты не купишь мой товар, то я приду к тебе ночью,
+                    и очень вежливо попрошу тебя все таки оформить заказ.
                 </p>
+                <a href="/catalog">Посмотреть товары</a>
             </li>
         </div>
         <div class="container">
             <li class="index-content-element">
-                <h1>Покупай где угодно</h1>
-                <p>
+                <h2 class="index-content-heading">Покупай где угодно</h2>
+                <p class="index-content-text">
                     Покупай товары онлайн из любой точки мира,
                     а наша логистическая компания привезет тебе твою покупку куда-угодно в самые быстрые сроки!
                 </p>

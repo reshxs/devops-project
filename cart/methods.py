@@ -101,7 +101,13 @@ async def change_product_count(context, product_id, count):
         "id": "bar"
     }
     """
-    if not isinstance(count, int) or count <= 0:
+    if not isinstance(count, int):
+        try:
+            count = int(count)
+        except ValueError:
+            raise InvalidParamsError()
+
+    if count <= 0:
         raise InvalidParamsError()
 
     request = context["request_obj"]
