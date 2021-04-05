@@ -28,7 +28,7 @@ window.onload = async function (){
 
                 let img = document.createElement('img');
                 img.src = product.product_img_url;
-                img.width = "250";
+                img.classList.add('catalog-product-img')
                 listElement.append(img)
 
                 let price = document.createElement('p');
