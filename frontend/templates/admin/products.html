@@ -13,7 +13,8 @@
     </li>
     {% for product in products %}
     <li>
-        <a class="list-link" href="{{url('admin_product_details', id=product.product_id)}}">
+        <a class="list-link search-item" href="{{url('admin_product_details', id=product.product_id)}}"
+           {% if product.product_moderating%}style="border-color:indianred"{%endif%}>
             {{product.product_name}}
         </a>
     </li>

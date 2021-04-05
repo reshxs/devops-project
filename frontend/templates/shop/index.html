@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{%block title%}Главная{%endblock%}
+{% block body %}
+<nav class="main-nav">
+        <a class="main-nav-element" href="/catalog">Каталог</a>
+        <a class="main-nav-element" href="/cart">Корзина</a>
+        {% if not user %}
+            <a class="main-nav-element" href="/auth/login">Вход</a>
+            <a class="main-nav-element" href="/auth/register">Регистрация</a>
+        {% else %}
+            <a class="main-nav-element" href="/profile">Профиль</a>
+            <a class="main-nav-element logout-button" href="#">Выйти</a>
+            {% if user.user_is_admin%}
+                <a class="main-nav-element" href="/admin">Администратор</a>
+            {% endif %}
+        {% endif %}
+        <a class="main-nav-element" href="/support">Поддрежка</a>
+</nav>
+{% block content %}
+<div class="content">
+    <ul class="index-content-list">
+        <div class="container">
+            <li class="index-content-element">
+                <img class="index-image" src="https://images.unsplash.com/photo-1511317559916-56d5ddb62563?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=939&q=80">
+            </li>
+        </div>
+        <div class="container">
+            <li class="index-content-element">
+                <h2 class="index-content-heading">Добро пожаловать в наш магазин</h2>
+                <p class="index-content-text">
+                    Я еще не решил что буду продавать, но если ты не купишь мой товар, то я приду к тебе ночью,
+                    и очень вежливо попрошу тебя все таки оформить заказ.
+                </p>
+                <a href="/catalog">Посмотреть товары</a>
+            </li>
+        </div>
+        <div class="container">
+            <li class="index-content-element">
+                <h2 class="index-content-heading">Покупай где угодно</h2>
+                <p class="index-content-text">
+                    Покупай товары онлайн из любой точки мира,
+                    а наша логистическая компания привезет тебе твою покупку куда-угодно в самые быстрые сроки!
+                </p>
+            </li>
+        </div>
+        <div class="container">
+            <li class="index-content-element">
+                <img class="index-image" src="https://images.unsplash.com/photo-1491975474562-1f4e30bc9468?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80">
+            </li>
+        </div>
+    </ul>
+</div>
+{% endblock %}
+<script type="text/javascript" src="/static/js/logout.js"></script>
+{% endblock %}
