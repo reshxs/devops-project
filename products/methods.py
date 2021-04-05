@@ -15,7 +15,8 @@ async def products_list(context):
         'product_id': p.product_id,
         'product_name': p.product_name,
         'product_description': p.product_description,
-        'product_price': float(p.product_price)
+        'product_price': float(p.product_price),
+        'product_img_url': p.product_img_url
     }, products))
 
 
@@ -29,13 +30,15 @@ async def moderating_products_list(context):
         'product_id': p.product_id,
         'product_name': p.product_name,
         'product_description': p.product_description,
-        'product_price': p.product_price
+        'product_price': p.product_price,
+        'product_img_url': p.product_img_url
     }, products))
 
 
 @method
 @admin_required
 async def add_product(context, product_name, product_description, product_price, product_moderating):
+    # todo: add img url to method attributes
     objects = context['request_obj'].app['objects']
     try:
         inst = await objects.create(Product,
