@@ -27,15 +27,9 @@ def init_app():
 
     # Setting up database
     logging.log(logging.DEBUG, f"DB: {settings.DB_HOST=}, {settings.DB_PORT=}")
-    app['database'] = database
-    app['database'].init("postgres",
-                         host=settings.DB_HOST,
-                         port=settings.DB_PORT,
-                         user=settings.DB_USER,
-                         password=settings.DB_PASSWORD)
-
-    app['database'].set_allow_sync(False)
-    app['objects'] = peewee_async.Manager(app['database'])
+    database.set_allow_sync(False)
+    objects = peewee_async.Manager(database)
+    app['objects'] = objects
 
     app.middlewares.append(auth_middleware)
 

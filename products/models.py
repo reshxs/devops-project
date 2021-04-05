@@ -8,3 +8,4 @@ class Product(BaseModel):
     product_description = peewee.TextField()
     product_price = peewee.DoubleField()
     product_moderating = peewee.BooleanField(default=True)
+    product_img_url = peewee.CharField(default='')
