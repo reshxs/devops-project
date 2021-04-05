@@ -56,8 +56,8 @@ header{
 }
 
 .content{
-    margin-left: 25px;
-    margin-right: 25px;
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 .container{
@@ -147,6 +147,12 @@ header{
     cursor: pointer;
 }
 
+.catalog-product-img{
+    width: 250px;
+    height: 250px;
+    object-fit: scale-down;
+}
+
 .cart-content{
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -163,7 +169,7 @@ header{
     margin: 0 0 15px;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(6, max-content);
+    grid-template-columns: repeat(7, max-content);
     justify-content: space-around;
     align-items: center;
     border-bottom: 1px solid lightgray;
@@ -171,6 +177,12 @@ header{
 
 .cart-item-element{
     margin-right: 25px;
+}
+
+.cart-item-img{
+    width: 100px;
+    height: 100px;
+    object-fit: scale-down;
 }
 
 .cart-count-input{

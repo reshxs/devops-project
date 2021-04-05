@@ -9,6 +9,8 @@
     <p>Описание: {{product.product_description}}</p>
     <p>Цена: {{product.product_price}}</p>
     <p>Товар на продаже: {{not product.product_moderating}}</p>
+    <p>Изображение: </p>
+    <img src="{{product.product_img_url}}">
     <a class="edit-link" href="{{url('admin_product_edit', id=product.product_id)}}">
         <button class="admin-button">Редактировать</button>
     </a>

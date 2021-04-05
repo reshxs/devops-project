@@ -27,8 +27,8 @@ window.onload = async function (){
                 listElement.append(title);
 
                 let img = document.createElement('img');
-                img.src = "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-space-gray-select-201810?wid=904&hei=840&fmt=jpeg&qlt=80&.v=1603332211000";
-                img.width = "250";
+                img.src = product.product_img_url;
+                img.classList.add('catalog-product-img')
                 listElement.append(img)
 
                 let price = document.createElement('p');

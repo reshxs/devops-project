@@ -21,6 +21,12 @@ window.onload = async function(){
             let newElement = document.createElement('li');
             newElement.classList.add('cart-item')
 
+            let img = document.createElement('img');
+            img.src = product.product_img_url;
+            img.classList.add('cart-item-element');
+            img.classList.add('cart-item-img');
+            newElement.append(img);
+
             let title = document.createElement('h2');
             title.classList.add('cart-item-element');
             title.textContent = product.product_name;
@@ -28,7 +34,7 @@ window.onload = async function(){
 
             let price = document.createElement('p');
             price.classList.add('cart-item-element');
-            price.textContent = 'Стоимость: ' + product.product_price;
+            price.textContent = 'Цена: ' + product.product_price;
             newElement.append(price);
 
             let count_label = document.createElement('p');
@@ -45,7 +51,7 @@ window.onload = async function(){
 
             let actual_price = document.createElement('p');
             actual_price.classList.add('cart-item-element');
-            actual_price.textContent = 'Цена: ' + product.product_price * result.result[productId].count;
+            actual_price.textContent = 'Итого: ' + product.product_price * result.result[productId].count;
             newElement.append(actual_price);
 
             let delete_button = document.createElement('p');
@@ -74,7 +80,7 @@ window.onload = async function(){
 
                 let result = await response.json();
                 if (result.result != null) {
-                    actual_price.textContent = 'Цена: ' + count_input.value * product.product_price;
+                    actual_price.textContent = 'Итого: ' + count_input.value * product.product_price;
                 }
             }
 

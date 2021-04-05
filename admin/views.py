@@ -125,6 +125,7 @@ async def admin_product_edit_post(request):
     product.product_name = form['name']
     product.product_description = form['description']
     product.product_price = float(form['price'])
+    product.product_img_url = form.get('img', '')
 
     on_sale = form.get('on_sale', None)
     product.product_moderating = False if on_sale else True
@@ -153,6 +154,7 @@ async def admin_product_create_post(request):
                                    product_name=form.get('name'),
                                    product_description=form.get('description'),
                                    product_price=float(form.get('price')),
+                                   product_img_url=form.get('img', ''),
                                    product_moderating=False if on_sale else True)
 
     location = request.app.router['admin_product_details'].url_for(id=str(product.product_id))

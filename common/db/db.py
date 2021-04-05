@@ -1,3 +1,9 @@
 import peewee_async
 
-database = peewee_async.PostgresqlDatabase(None)
+import settings
+
+database = peewee_async.PostgresqlDatabase("postgres",
+                                           host=settings.DB_HOST,
+                                           port=settings.DB_PORT,
+                                           user=settings.DB_USER,
+                                           password=settings.DB_PASSWORD)
