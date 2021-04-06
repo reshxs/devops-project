@@ -1,4 +1,5 @@
 import os
+import logging
 
 
 HOST = os.environ.get("HOST", "0.0.0.0")
@@ -13,4 +14,6 @@ MEMCACHED_HOST = os.environ.get("MEMCACHED_HOST", "localhost")
 MEMCACHED_PORT = os.environ.get("MEMCACHED_PORT", 11211)
 
 SESSION_MAX_AGE = 1800
+
+LOGGER_LEVEL = logging.DEBUG
 

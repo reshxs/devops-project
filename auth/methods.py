@@ -1,7 +1,9 @@
 import peewee
+import logging
+import settings
 
 from jsonrpcserver import method
-from jsonrpcserver.exceptions import InvalidParamsError, ApiError
+from jsonrpcserver.exceptions import ApiError
 from auth.models import User
 from auth.utils import hash_password, match_password, email_is_valid
 from auth.decorators import login_required
@@ -17,6 +19,7 @@ async def login(context, email, password):
         if match_password(user, password):
             session = await get_session(request_obj)
             session['user_id'] = user.user_id
+            logging.log(settings.LOGGER_LEVEL, f"Logged in {user.user_id=}")
             return {
                 "status": "ok"
             }
@@ -31,7 +34,9 @@ async def login(context, email, password):
 async def logout(context):
     request_obj = context['request_obj']
     session = await get_session(request_obj)
+    user_id = session["user_id"]
     session["user_id"] = None
+    logging.log(settings.LOGGER_LEVEL, f"Logged out {user_id=}")
     return {
         "message": "logged out"
     }

@@ -15,18 +15,18 @@ from routes import setup_routes
 
 
 def init_app():
-    logging.log(logging.DEBUG, f"App: {settings.HOST=}, {settings.PORT=}")
+    logging.log(settings.LOGGER_LEVEL, f"App: {settings.HOST=}, {settings.PORT=}")
 
     # Creating an app
     app = web.Application()
 
     # Setting up sessions
-    logging.log(logging.DEBUG, f"Memcached: {settings.MEMCACHED_HOST=}, {settings.MEMCACHED_PORT=}")
+    logging.log(settings.LOGGER_LEVEL, f"Memcached: {settings.MEMCACHED_HOST=}, {settings.MEMCACHED_PORT=}")
     mc = aiomcache.Client(settings.MEMCACHED_HOST, settings.MEMCACHED_PORT)
     setup_sessions(app, MemcachedStorage(mc, max_age=settings.SESSION_MAX_AGE))
 
     # Setting up database
-    logging.log(logging.DEBUG, f"DB: {settings.DB_HOST=}, {settings.DB_PORT=}")
+    logging.log(settings.LOGGER_LEVEL, f"DB: {settings.DB_HOST=}, {settings.DB_PORT=}")
     database.set_allow_sync(False)
     objects = peewee_async.Manager(database)
     app['objects'] = objects
@@ -39,14 +39,13 @@ def init_app():
 
     # Setting up routes
     setup_routes(app)
-    logging.log(logging.DEBUG, "Running...")
+    logging.log(settings.LOGGER_LEVEL, "Running...")
 
     return app, settings.HOST, settings.PORT
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=settings.LOGGER_LEVEL)
 
     app, host, port = init_app()
     web.run_app(app, host=host, port=port)
-    logging.info("Running")

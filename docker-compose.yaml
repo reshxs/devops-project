@@ -16,6 +16,7 @@ services:
     volumes:
       - ./frontend/templates:/usr/src/app/frontend/templates
       - ./frontend/static:/usr/src/app/frontend/static
+      - ./settings:/usr/src/app/settings
 
   memcached:
     image: memcached:latest
