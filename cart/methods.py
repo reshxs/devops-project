@@ -4,12 +4,10 @@ from jsonrpcserver import method
 from jsonrpcserver.exceptions import ApiError, InvalidParamsError
 from playhouse.shortcuts import model_to_dict, dict_to_model
 
-from auth.decorators import login_required
 from products.models import Product
 
 
 @method
-@login_required
 async def add_to_cart(context, product_id, count):
     """
     Example request:
@@ -54,7 +52,6 @@ async def add_to_cart(context, product_id, count):
 
 
 @method
-@login_required
 async def remove_from_cart(context, product_id):
     """
     Example request:
@@ -86,7 +83,6 @@ async def remove_from_cart(context, product_id):
 
 
 @method
-@login_required
 async def change_product_count(context, product_id, count):
     """
     Example request:
@@ -128,7 +124,6 @@ async def change_product_count(context, product_id, count):
 
 
 @method
-@login_required
 async def get_cart(context):
     """
     Example request:
