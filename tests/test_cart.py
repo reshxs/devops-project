@@ -3,15 +3,6 @@ import pytest
 from helpers import fetch_jsonrpc, login_default, login_admin
 
 
-async def test_get_cart_with_no_login(client):
-    resp = await fetch_jsonrpc(client, 'get_cart')
-    assert resp.status == 200
-
-    resp_data = await resp.json()
-    assert 'error' in resp_data
-    assert resp_data['error']['message'] == 'Auth required'
-
-
 async def get_cart_when_it_is_empty(client):
     await login_default(client)
     resp = await fetch_jsonrpc(client, 'get_cart')
@@ -23,7 +14,6 @@ async def get_cart_when_it_is_empty(client):
 
 
 async def test_get_cart(client):
-    await login_default(client)
     await fetch_jsonrpc(client, 'add_to_cart', params={
         "product_id": 2,
         "count": 5
@@ -34,20 +24,6 @@ async def test_get_cart(client):
     data = await response.json()
     assert 'result' in data
     # todo: test result
-
-
-async def test_add_to_cart_with_no_login(client):
-    params = {
-        "product_id": 1,
-        "count": 1
-    }
-    resp = await fetch_jsonrpc(client, "add_to_cart", params=params)
-
-    assert resp.status == 200
-
-    data = await resp.json()
-    assert 'error' in data
-    assert data['error']['message'] == 'Auth required'
 
 
 async def test_add_to_cart_when_product_does_not_exist(client):
@@ -121,19 +97,6 @@ async def test_add_to_cart(client):
     assert data['result'] == f"'{params['product_id']}' added to cart"
 
 
-async def test_remove_from_cart_with_no_login(client):
-    params = {
-        "product_id": 1,
-    }
-    resp = await fetch_jsonrpc(client, "remove_from_cart", params=params)
-
-    assert resp.status == 200
-
-    data = await resp.json()
-    assert 'error' in data
-    assert data['error']['message'] == 'Auth required'
-
-
 async def test_remove_from_cart_when_product_is_not_in_cart(client):
     await login_default(client)
     await fetch_jsonrpc(client, "add_to_cart", params={
@@ -173,20 +136,6 @@ async def test_remove_from_cart(client):
     response = await fetch_jsonrpc(client, "get_cart")
     data = await response.json()
     assert params["product_id"] not in data
-
-
-async def test_change_product_count_with_no_login(client):
-    params = {
-        "product_id": 1,
-        "count": 2
-    }
-    resp = await fetch_jsonrpc(client, "change_product_count", params=params)
-
-    assert resp.status == 200
-
-    data = await resp.json()
-    assert 'error' in data
-    assert data['error']['message'] == 'Auth required'
 
 
 @pytest.mark.parametrize("count", [

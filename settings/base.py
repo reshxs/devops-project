@@ -5,7 +5,7 @@ import logging
 HOST = os.environ.get("HOST", "0.0.0.0")
 PORT = os.environ.get("PORT", 8080)
 
-DB_HOST = os.environ.get("DB_HOST", "localhost")
+DB_HOST = os.environ.get("DB_HOST", "0.0.0.0")
 DB_PORT = os.environ.get("DB_PORT", 5432)
 DB_USER = os.environ.get("DB_USER", "postgres")
 DB_PASSWORD = os.environ.get("DB_PASSWORD", "password")
