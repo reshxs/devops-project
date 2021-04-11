@@ -4,7 +4,6 @@ import peewee_async
 import pytest
 import uvloop
 from pytest_aiohttp import aiohttp_client
-from pytest_aiohttp import TestServer, TestClient
 
 from auth.models import User
 from auth.utils import hash_password

@@ -9,7 +9,7 @@ async def fetch_jsonrpc(client, method, params=None):
     }
     if params:
         data["params"] = params
-    result = await client.post('/api/v1/jsonrpc', data=json.dumps(data))
+    result = await client.post('/api/v1/jsonrpc', json=data)
     return result
 
 

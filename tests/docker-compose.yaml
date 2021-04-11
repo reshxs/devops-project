@@ -11,4 +11,4 @@ services:
   memcached:
     image: memcached:latest
     ports:
-      - "11211:1211"
+      - "11211:11211"
