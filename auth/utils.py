@@ -18,3 +18,7 @@ def match_password(user: User, password: str) -> bool:
 
 def email_is_valid(email):
     return bool(re.search('^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$', email))
+
+
+def phone_is_valid(phone):
+    return bool(re.search('^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$', phone))
