@@ -1,6 +1,3 @@
-import json
-
-
 async def fetch_jsonrpc(client, method, params=None):
     data = {
         "jsonrpc": "2.0",

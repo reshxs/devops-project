@@ -1,8 +1,10 @@
+import random
+
 import pytest
 
 from auth.utils import hash_password, match_password, email_is_valid
 from auth.models import User
-from tests.helpers import login_default, fetch_jsonrpc
+from tests.helpers import login_admin, login_default, fetch_jsonrpc
 
 
 @pytest.mark.parametrize("test_input, expected", [
@@ -72,7 +74,7 @@ async def test_register(client):
     params = {
         "user_name": "new",
         "user_surname": "test",
-        "user_email": "newuser@example.com",
+        "user_email": f"newuser{random.randint(0, 99999999)}@example.com",
         "user_phone": "+79999999999",
         "user_password": "TryGuessQWERTY"
     }
@@ -134,14 +136,35 @@ async def test_register_when_email_already_exists(client):
     # todo: assert error message
 
 
-async def test_register_with_none_fields(client):
-    # todo: Implement test
-    assert False, "Implement this test"
+@pytest.mark.parametrize('field_name',
+                         ['user_name', 'user_surname', 'user_email', 'user_phone', 'user_password'])
+async def test_register_with_none_fields(client, field_name):
+    params = {"user_name": "new", "user_surname": "test", "user_email": "newuser_withnone@example.com",
+              "user_phone": "+79999999993", "user_password": "TryGuessQWERTY", field_name: None}
+
+    response = await fetch_jsonrpc(client, "register", params)
+    assert response.status == 200
+
+    data = await response.json()
+    assert 'error' in data
+
+
+async def test_login_required_without_login(client):
+    # TODO replace with login_required method (not admin_required)
+    response = await fetch_jsonrpc(client, "moderating_products_list")
+    data = await response.json()
+    assert response.status == 200
+    assert 'error' in data
+    assert data['error']['message'] == 'Auth required'
 
 
 async def test_login_required(client):
-    # todo: Implement test
-    assert False, "Implement this test"
+    # todo replace with default login
+    await login_admin(client)
+    response = await fetch_jsonrpc(client, "moderating_products_list")
+    data = await response.json()
+    assert response.status == 200
+    assert 'result' in data
 
 
 async def test_view_login_required(client):
@@ -149,9 +172,29 @@ async def test_view_login_required(client):
     assert False, "Implement this test"
 
 
-async def test_admin_required(client):
-    # todo: Implement test
-    assert False, "Implement this test"
+async def test_admin_required_with_default_user(client):
+    await login_default(client)
+    response = await fetch_jsonrpc(client, "moderating_products_list")
+    data = await response.json()
+    assert response.status == 200
+    assert 'error' in data
+    assert data['error']['message'] == 'Admin required'
+
+
+async def test_admin_required_without_login(client):
+    response = await fetch_jsonrpc(client, "moderating_products_list")
+    data = await response.json()
+    assert response.status == 200
+    assert 'error' in data
+    assert data['error']['message'] == 'Auth required'
+
+
+async def test_admin_required_with_admin(client):
+    await login_admin(client)
+    response = await fetch_jsonrpc(client, "moderating_products_list")
+    data = await response.json()
+    assert response.status == 200
+    assert 'result' in data
 
 
 async def test_view_admin_required(client):
