@@ -3,7 +3,7 @@ from common.db.models import BaseModel
 
 
 class User(BaseModel):
-    user_id = peewee.AutoField()
+    user_id = peewee.PrimaryKeyField()
     user_name = peewee.CharField(null=False)
     user_surname = peewee.CharField(null=False)
     user_email = peewee.CharField(null=False, unique=True)
