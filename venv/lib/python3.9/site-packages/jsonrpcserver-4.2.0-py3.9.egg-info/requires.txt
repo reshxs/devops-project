@@ -1,0 +1,16 @@
+apply_defaults<1
+jsonschema<4,>=2
+
+[examples]
+aiohttp
+aiozmq
+flask
+flask-socketio
+gmqtt
+pyzmq
+tornado
+websockets
+werkzeug
+
+[tox]
+tox
