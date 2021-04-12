@@ -2,7 +2,7 @@ import random
 
 import pytest
 
-from auth.utils import hash_password, match_password, email_is_valid
+from auth.utils import hash_password, match_password, email_is_valid, phone_is_valid
 from auth.models import User
 from tests.helpers import login_admin, login_default, fetch_jsonrpc
 
@@ -34,6 +34,36 @@ def test_match_password(test_input, expected):
 ])
 def test_email_validation(test_input, expected):
     assert email_is_valid(test_input) == expected
+
+
+@pytest.mark.parametrize("test_input, expected", [
+    ("+79991234567", True),
+    ("79991234567", True),
+    ("89991234567", True),
+    ("+7(999)123-45-67", True),
+    ("8(999)123-45-67", True),
+    ('+7123', False),
+    ("String again", False)
+])
+def test_phone_validation(test_input, expected):
+    assert phone_is_valid(test_input) == expected
+
+
+@pytest.mark.parametrize("test_input, expected", [
+    ("qwerty", False),
+    ("", False),
+    (" ", False),
+    ("QWERTY", False),
+    ("123", False),
+    ("abc123", False),
+    ("ABC123", False),
+    ("abcABC", False),
+    ("Ab1", False),
+    ("GoodPassword1337", True),
+    ("PwdWithSymbols1)))", True)
+])
+def test_password_validation(test_input, expected):
+    pass
 
 
 async def test_login(client):
@@ -75,7 +105,7 @@ async def test_register(client):
         "user_name": "new",
         "user_surname": "test",
         "user_email": f"newuser{random.randint(0, 99999999)}@example.com",
-        "user_phone": "+79999999999",
+        "user_phone": "+79999999123",
         "user_password": "TryGuessQWERTY"
     }
 
@@ -114,9 +144,28 @@ async def test_register_with_invalid_email(client, email):
     assert data['error']['message'] == 'Invalid email'
 
 
-async def test_register_with_invalid_phone_number(client):
-    # todo: Implement test
-    assert False, "Implement this test"
+@pytest.mark.parametrize('test_input', [
+    '+7123',
+    "One more string",
+    "",
+    " ",
+    "123"
+])
+async def test_register_with_invalid_phone_number(client, test_input):
+    params = {
+        "user_name": "new",
+        "user_surname": "test",
+        "user_email": 'invalidphone@example.com',
+        "user_phone": test_input,
+        "user_password": "TryGuessQWERTY"
+    }
+
+    response = await fetch_jsonrpc(client, "register", params)
+    assert response.status == 200
+
+    data = await response.json()
+    assert 'error' in data
+    assert data['error']['message'] == 'Invalid phone'
 
 
 async def test_register_when_email_already_exists(client):

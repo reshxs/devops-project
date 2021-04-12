@@ -5,7 +5,7 @@ import settings
 from jsonrpcserver import method
 from jsonrpcserver.exceptions import ApiError
 from auth.models import User
-from auth.utils import hash_password, match_password, email_is_valid
+from auth.utils import hash_password, match_password, email_is_valid, phone_is_valid
 from auth.decorators import login_required
 from aiohttp_session import get_session
 
@@ -47,7 +47,9 @@ async def register(context, user_name, user_surname, user_email, user_phone, use
     if not email_is_valid(user_email):
         raise ApiError("Invalid email")
 
-    # todo: validate phone number
+    if not phone_is_valid(user_phone):
+        raise ApiError("Invalid phone")
+
     # todo: validate password
 
     objects = context['request_obj'].app['objects']

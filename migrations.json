@@ -3,6 +3,7 @@
   "directory": "migrations",
   "history": "migratehistory",
   "models": [
-    "products.models.Product"
+    "products.models.Product",
+    "auth.models.User"
   ]
 }

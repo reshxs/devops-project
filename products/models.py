@@ -3,7 +3,7 @@ from common.db.models import BaseModel
 
 
 class Product(BaseModel):
-    product_id = peewee.AutoField()
+    product_id = peewee.PrimaryKeyField()
     product_name = peewee.CharField()
     product_description = peewee.TextField()
     product_price = peewee.DoubleField()

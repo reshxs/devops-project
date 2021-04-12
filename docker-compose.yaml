@@ -17,6 +17,7 @@ services:
       - ./frontend/templates:/usr/src/app/frontend/templates
       - ./frontend/static:/usr/src/app/frontend/static
       - ./settings:/usr/src/app/settings
+      - ./migrations:/usr/src/app/migrations
 
   memcached:
     image: memcached:latest
@@ -41,8 +42,8 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
 
-  rabbit:
-    image: rabbitmq:latest
-    ports:
-      - "5672:5672"
-    hostname: "rabbit-devops"
+#  rabbit:
+#    image: rabbitmq:latest
+#    ports:
+#      - "5672:5672"
+#    hostname: "rabbit-devops"
