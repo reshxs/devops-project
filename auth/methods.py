@@ -47,6 +47,9 @@ async def register(context, user_name, user_surname, user_email, user_phone, use
     if not email_is_valid(user_email):
         raise ApiError("Invalid email")
 
+    # todo: validate phone number
+    # todo: validate password
+
     objects = context['request_obj'].app['objects']
     try:
         user = await objects.create(User,
