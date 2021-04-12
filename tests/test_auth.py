@@ -49,6 +49,23 @@ def test_phone_validation(test_input, expected):
     assert phone_is_valid(test_input) == expected
 
 
+@pytest.mark.parametrize("test_input, expected", [
+    ("qwerty", False),
+    ("", False),
+    (" ", False),
+    ("QWERTY", False),
+    ("123", False),
+    ("abc123", False),
+    ("ABC123", False),
+    ("abcABC", False),
+    ("Ab1", False),
+    ("GoodPassword1337", True),
+    ("PwdWithSymbols1)))", True)
+])
+def test_password_validation(test_input, expected):
+    pass
+
+
 async def test_login(client):
     response = await login_default(client)
     assert response.status == 200
@@ -88,7 +105,7 @@ async def test_register(client):
         "user_name": "new",
         "user_surname": "test",
         "user_email": f"newuser{random.randint(0, 99999999)}@example.com",
-        "user_phone": "+79999999999",
+        "user_phone": "+79999999123",
         "user_password": "TryGuessQWERTY"
     }
 
