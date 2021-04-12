@@ -15,7 +15,7 @@ async def get_cart_when_it_is_empty(client):
 
 async def test_get_cart(client):
     await fetch_jsonrpc(client, 'add_to_cart', params={
-        "product_id": 2,
+        "product_id": 1,
         "count": 5
     })
 
@@ -62,7 +62,7 @@ async def test_add_to_cart_with_invalid_count(client, count):
 async def test_add_to_cart_when_product_already_in_cart(client):
     await login_default(client)
     params = {
-        "product_id": 2,
+        "product_id": 1,
         "count": 2
     }
 
@@ -85,7 +85,7 @@ async def test_add_to_cart_when_product_already_in_cart(client):
 async def test_add_to_cart(client):
     await login_default(client)
     params = {
-        "product_id": 2,
+        "product_id": 1,
         "count": 2
     }
 
@@ -100,12 +100,12 @@ async def test_add_to_cart(client):
 async def test_remove_from_cart_when_product_is_not_in_cart(client):
     await login_default(client)
     await fetch_jsonrpc(client, "add_to_cart", params={
-        "product_id": 2,
+        "product_id": 1,
         "count": 1
     })
 
     params = {
-        "product_id": 1,
+        "product_id": 2,
     }
     resp = await fetch_jsonrpc(client, "remove_from_cart", params=params)
 
@@ -119,12 +119,12 @@ async def test_remove_from_cart_when_product_is_not_in_cart(client):
 async def test_remove_from_cart(client):
     await login_default(client)
     await fetch_jsonrpc(client, "add_to_cart", params={
-        "product_id": 2,
+        "product_id": 1,
         "count": 2
     })
 
     params = {
-        "product_id": 2
+        "product_id": 1
     }
 
     response = await fetch_jsonrpc(client, "remove_from_cart", params=params)
@@ -157,14 +157,13 @@ async def test_change_product_count_with_invalid_count(client, count):
 
 
 async def test_change_product_count_when_product_is_not_in_cart(client):
-    await login_default(client)
     await fetch_jsonrpc(client, "add_to_cart", params={
-        "product_id": 2,
+        "product_id": 1,
         "count": 1
     })
 
     params = {
-        "product_id": 1,
+        "product_id": 2,
         "count": 2
     }
     resp = await fetch_jsonrpc(client, "change_product_count", params=params)
@@ -173,18 +172,19 @@ async def test_change_product_count_when_product_is_not_in_cart(client):
 
     data = await resp.json()
     assert 'error' in data
-    assert data['error']['message'] == f"Product with id '{params['product_id']}' not in cart"
+    err_msg = f"Product with id '{params['product_id']}' not in cart"
+    assert data['error']['message'] == err_msg
 
 
 async def test_change_product_count(client):
     await login_default(client)
     await fetch_jsonrpc(client, "add_to_cart", params={
-        "product_id": 2,
+        "product_id": 1,
         "count": 1
     })
 
     params = {
-        "product_id": 2,
+        "product_id": 1,
         "count": 3
     }
     resp = await fetch_jsonrpc(client, "change_product_count", params=params)
