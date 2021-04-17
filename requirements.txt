@@ -13,3 +13,4 @@ pytest-aiohttp==0.3.0
 pytest-mock==3.5.1
 peewee-migrations==0.3.19
 uvloop==0.15.2
+aio-pika==6.8.0

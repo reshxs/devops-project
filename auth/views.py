@@ -20,7 +20,6 @@ async def register(request):
 @aiohttp_jinja2.template('auth/register.html')
 async def register_post(request):
     form = await request.post()
-
     context = {
         "request_obj": request
     }
