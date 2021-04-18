@@ -1,13 +1,14 @@
-import peewee
 import logging
-import settings
 
+import peewee
+from aiohttp_session import get_session
 from jsonrpcserver import method
 from jsonrpcserver.exceptions import ApiError
+
+import settings
+from auth.decorators import login_required
 from auth.models import User
 from auth.utils import hash_password, match_password, email_is_valid, phone_is_valid
-from auth.decorators import login_required
-from aiohttp_session import get_session
 
 
 @method
@@ -51,8 +52,10 @@ async def register(context, user_name, user_surname, user_email, user_phone, use
         raise ApiError("Invalid phone")
 
     # todo: validate password
+    app = context['request_obj'].app
+    objects = app['objects']
+    esb_client = app['esb_client']
 
-    objects = context['request_obj'].app['objects']
     try:
         user = await objects.create(User,
                                     user_name=user_name,
@@ -65,4 +68,5 @@ async def register(context, user_name, user_surname, user_email, user_phone, use
     except peewee.IntegrityError as error:
         raise ApiError(str(error))
 
+    await esb_client.send_message(user_email, routing_key='register', exchange_name='events')
     return {"user_id": user.user_id}

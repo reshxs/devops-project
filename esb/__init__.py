@@ -1,19 +1,22 @@
 import aio_pika
+import asyncio
 import settings
+from aiohttp import web
+from .client import ESBClient
 
 
-async def send(queue_name: str, message: bytes) -> None:
-    conn_string = f"amqp://{settings.RABBIT_LOGIN}:{settings.RABBIT_PASSWORD}@{settings.RABBIT_HOST}/"
+def setup(app: web.Application, loop=None):
+    if not loop:
+        loop = asyncio.get_event_loop()
+
+    esb_client = loop.run_until_complete(get_client())
+    app["esb_client"] = esb_client
+
+
+async def get_client():
     connection = await aio_pika.connect(host=settings.RABBIT_HOST,
                                         port=settings.RABBIT_PORT,
                                         login=settings.RABBIT_LOGIN,
                                         password=settings.RABBIT_PASSWORD)
 
-    async with connection:
-        channel = await connection.channel()
-        await channel.declare_queue(queue_name)
-
-        await channel.default_exchange.publish(
-            aio_pika.Message(message),
-            routing_key=queue_name
-        )
+    return ESBClient(connection)
