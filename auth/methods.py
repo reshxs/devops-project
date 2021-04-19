@@ -8,7 +8,9 @@ from jsonrpcserver.exceptions import ApiError
 import settings
 from auth.decorators import login_required
 from auth.models import User
-from auth.utils import hash_password, match_password, email_is_valid, phone_is_valid
+from auth.utils import hash_password, match_password, email_is_valid, phone_is_valid, send_email_confirmation
+from esb import ESBClient
+from esb.helpers import EmailClient
 
 
 @method
@@ -68,5 +70,6 @@ async def register(context, user_name, user_surname, user_email, user_phone, use
     except peewee.IntegrityError as error:
         raise ApiError(str(error))
 
-    await esb_client.send_message(user_email, routing_key='register', exchange_name='events')
+    await send_email_confirmation(EmailClient(esb_client), user_email)
+
     return {"user_id": user.user_id}

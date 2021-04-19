@@ -12,7 +12,7 @@ class ESBClient:
                 exchange = channel.default_exchange
             else:
                 exchange = await channel.declare_exchange(
-                    'events', aio_pika.ExchangeType.DIRECT
+                    exchange_name, aio_pika.ExchangeType.DIRECT
                 )
 
             await exchange.publish(

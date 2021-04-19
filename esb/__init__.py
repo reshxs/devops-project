@@ -1,3 +1,5 @@
+import logging
+
 import aio_pika
 import asyncio
 import settings
@@ -14,9 +16,16 @@ def setup(app: web.Application, loop=None):
 
 
 async def get_client():
-    connection = await aio_pika.connect(host=settings.RABBIT_HOST,
-                                        port=settings.RABBIT_PORT,
-                                        login=settings.RABBIT_LOGIN,
-                                        password=settings.RABBIT_PASSWORD)
-
-    return ESBClient(connection)
+    for i in range(30):
+        try:
+            connection = await aio_pika.connect(host=settings.RABBIT_HOST,
+                                                port=settings.RABBIT_PORT,
+                                                login=settings.RABBIT_LOGIN,
+                                                password=settings.RABBIT_PASSWORD)
+        except ConnectionError as e:
+            if i == 29:
+                raise
+            logging.log(logging.INFO, str(e))
+            await asyncio.sleep(1)
+        else:
+            return ESBClient(connection)
