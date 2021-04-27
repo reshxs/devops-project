@@ -22,3 +22,6 @@ class ESBClient:
                 ),
                 routing_key=routing_key
             )
+
+    async def close(self):
+        await self.connection.close()

@@ -7,12 +7,17 @@ from aiohttp import web
 from .client import ESBClient
 
 
+async def on_shutdown(app):
+    await app["esb_client"].close()
+
+
 def setup(app: web.Application, loop=None):
     if not loop:
         loop = asyncio.get_event_loop()
 
     esb_client = loop.run_until_complete(get_client())
     app["esb_client"] = esb_client
+    app.on_shutdown.append(on_shutdown)
 
 
 async def get_client():

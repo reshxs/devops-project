@@ -9,7 +9,6 @@ import settings
 from auth.decorators import login_required
 from auth.models import User
 from auth.utils import hash_password, match_password, email_is_valid, phone_is_valid, send_email_confirmation
-from esb import ESBClient
 from esb.helpers import EmailClient
 
 

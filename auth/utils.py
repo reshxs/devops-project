@@ -1,8 +1,9 @@
-import bcrypt
 import re
+
+import bcrypt
+
 from auth.models import User
 from esb.helpers import EmailClient
-
 
 
 def hash_password(password: str) -> str:
