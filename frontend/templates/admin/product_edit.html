@@ -10,13 +10,13 @@
             <label for="name">Название: </label>
             <input id="name" name="name" type="text" value="{{product.product_name}}">
             <label for="description">Описание: </label>
-            <input id="description" name="description" type="text" value="{{product.product_description}}">
+            <textarea id="description" name="description" rows="10">{{product.product_description}}</textarea>
             <label for="price">Цена: </label>
             <input id="price" name="price" type="text" value="{{product.product_price}}">
             <label for="img">URL изображения</label>
             <input id="img" name="img" type="url" value="{{product.product_img_url}}">
             <label for="on_sale">Выставить на продажу: </label>
-            <input id="on_sale" name="on_sale" type="checkbox" {% if not product.product_moderationg%} checked {% endif %}>
+            <input id="on_sale" name="on_sale" type="checkbox" {% if not product.product_moderating%} checked {% endif %}>
             <input class="admin-button" type="submit" value="Сохранить">
         </form>
     </div>
