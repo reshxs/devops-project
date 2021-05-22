@@ -149,13 +149,13 @@ async def admin_product_create_post(request):
     objects = request.app['objects']
     form = await request.post()
 
-    on_sale = form.get('is_moderating')
+    on_sale = form.get('on_sale')
     product = await objects.create(Product,
                                    product_name=form.get('name'),
                                    product_description=form.get('description'),
                                    product_price=float(form.get('price')),
                                    product_img_url=form.get('img', ''),
-                                   product_moderating=False if on_sale else True)
+                                   product_moderating=not on_sale)
 
     location = request.app.router['admin_product_details'].url_for(id=str(product.product_id))
     raise web.HTTPFound(location)

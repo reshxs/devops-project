@@ -57,6 +57,7 @@
 	outline: none;
 	display: block;
 	width: 100%;
+	max-width: 400px;
 	padding: 7px;
 	border: none;
 	border-bottom: 1px solid #ddd;
@@ -64,6 +65,11 @@
 	margin-bottom: 25px;
 	font: 16px Arial, Helvetica, sans-serif;
 	height: 45px;
+}
+
+.edit-form textarea{
+	height: 150px;
+	resize: none;
 }
 
 .edit-form input[type="checkbox"] {

@@ -1,5 +1,6 @@
 let cartItemsList = document.querySelector(".cart-items-list")
 let cartProductsCount = document.querySelector(".cart-products-count")
+let base_url = window.location.origin;
 
 
 window.onload = async function(){
@@ -9,7 +10,7 @@ window.onload = async function(){
         "id": "test"
     };
 
-    let response = await fetch('http://localhost:80/api/v1/jsonrpc', {
+    let response = await fetch(base_url + '/api/v1/jsonrpc', {
             method: "POST",
             body: JSON.stringify(request)
     });
@@ -73,7 +74,7 @@ window.onload = async function(){
                     "id": "test"
                 };
 
-                let response = await fetch("http://localhost/api/v1/jsonrpc", {
+                let response = await fetch(base_url + "/api/v1/jsonrpc", {
                     method: "POST",
                     body: JSON.stringify(request)
                 });
@@ -94,7 +95,7 @@ window.onload = async function(){
                     "id": "test"
                 };
 
-                let response = await fetch("http://localhost/api/v1/jsonrpc", {
+                let response = await fetch(base_url + "/api/v1/jsonrpc", {
                     method: "POST",
                     body: JSON.stringify(request)
                 });

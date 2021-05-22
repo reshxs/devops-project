@@ -44,7 +44,6 @@ header p {
     left: 0;
     overflow-x: hidden;
     padding-top: 20px;
-    border-right: 1px solid #bcbcbc;
 }
 
 .sidenav a {
@@ -71,7 +70,6 @@ header p {
     margin-top: 110px;
     margin-left: 160px;
     height: 100%;
-    width: 400px;
     z-index: 1;
     top: 0;
     left: 0;
