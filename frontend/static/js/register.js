@@ -8,8 +8,6 @@ let user_email = document.querySelector("#user_email")
 let user_phone = document.querySelector("#user_phone")
 let loginError = document.querySelector(".login-error")
 
-let base_url = window.location.origin;
-
 submitButton.disabled = true
 
 
@@ -40,13 +38,13 @@ form.onsubmit = async function(e) {
         "id": "test"
     }
 
-    let response = await fetch(base_url + '/api/v1/jsonrpc', {
+    let response = await fetch(window.location.origin + '/api/v1/jsonrpc', {
             method: "POST",
             body: JSON.stringify(request)
         });
         let result = await response.json()
         if(result.result != null){
-            window.location.replace(base_url + '/auth/login')
+            window.location.replace(window.location.origin + '/auth/login')
         }
         else if(result.error){
             loginError.textContent = result.error.message

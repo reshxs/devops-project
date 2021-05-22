@@ -5,8 +5,6 @@
     let loginError = document.querySelector('.login-error')
     let next_url = next_url_input.value
 
-    let base_url = window.location.origin;
-
     button.onclick = async function () {
         let email = emailInput.value;
         let password = passwordInput.value;
@@ -20,7 +18,7 @@
             "id": "login"
         };
 
-        let response = await fetch(base_url + '/api/v1/jsonrpc', {
+        let response = await fetch(window.location.origin + '/api/v1/jsonrpc', {
             method: "POST",
             body: JSON.stringify(request)
         });
