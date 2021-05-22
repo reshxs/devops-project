@@ -1,5 +1,7 @@
 let catalogList = document.querySelector(".catalog-list")
 
+let base_url = window.location.origin;
+
 
 window.onload = async function (){
     let request = {
@@ -8,7 +10,7 @@ window.onload = async function (){
             "id": "login"
         };
 
-        let response = await fetch('http://localhost:80/api/v1/jsonrpc', {
+        let response = await fetch(base_url + '/api/v1/jsonrpc', {
             method: "POST",
             body: JSON.stringify(request)
         });
@@ -51,14 +53,14 @@ window.onload = async function (){
                         "id": "test"
                     };
 
-                    let response = await fetch("http://localhost/api/v1/jsonrpc", {
+                    let response = await fetch(base_url + "/api/v1/jsonrpc", {
                         "method": "POST",
                         "body": JSON.stringify(request)
                     });
 
                     let result = await response.json();
                     if(result.result != null){
-                        window.location = "http://localhost/cart";
+                        window.location = base_url + "/cart";
                     } else {
                         console.log(result.error.message)
                     }

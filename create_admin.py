@@ -6,6 +6,12 @@ import peewee_async
 import typer
 
 
+"""
+Скрипт для создания пользователя с правами администратора
+Example: `python3 create_admin.py example@example.com +79999999999 password` 
+"""
+
+
 async def create_user(email: str, phone: str, password: str):
     manager = peewee_async.Manager(database)
 
