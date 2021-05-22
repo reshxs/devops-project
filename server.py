@@ -12,6 +12,7 @@ import settings
 from auth.middleware import auth_middleware
 from common.db.db import database
 from routes import setup_routes
+from esb import setup as setup_esb
 
 
 def init_app():
@@ -36,6 +37,9 @@ def init_app():
     # Setting up jinja
     aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader('frontend/templates'))
     app['static_root_url'] = 'frontend/static'
+
+    # Setting up esb
+    setup_esb(app)
 
     # Setting up routes
     setup_routes(app)
