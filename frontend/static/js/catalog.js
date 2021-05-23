@@ -21,7 +21,7 @@ window.onload = async function (){
                 listElement.classList.add('search-item');
 
                 let title = document.createElement('a');
-                title.href='#';
+                title.href= window.location.origin +'/catalog/' + product.product_id;
                 title.classList.add('product-title');
                 title.textContent = product.product_name;
                 listElement.append(title);

@@ -210,3 +210,14 @@ header{
     background-color: indianred;
     cursor: pointer;
 }
+
+.product-details{
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    grid-column-gap: 50px;
+}
+
+.product-details-img{
+    max-width: 450px;
+    height: auto;
+}
