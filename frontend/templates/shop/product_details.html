@@ -1,0 +1,49 @@
+{% extends 'shop/index.html' %}
+{% block content %}
+    <div class="content">
+        {% if product %}
+            <div class="product-details">
+                <div class="catalog-product-img-wrapper">
+                    <img class="product-details-img" src="{{ product.product_img_url }}">
+                </div>
+                <div>
+                    <h1>{{ product.product_name }}</h1>
+                    <h2>$ {{ product.product_price }}</h2>
+                    <h2>Описание:</h2>
+                    <p>{{ product.product_description }}</p>
+                    <br>
+                    <a class="catalog-add-to-card-button" data-product-id="{{ product.product_id }}">
+                        В Корзину
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <h1>Упс, что-то пошло не так =(</h1>
+        {% endif %}
+    </div>
+
+    <script type="application/javascript">
+        let button = document.querySelector(".catalog-add-to-card-button");
+        button.onclick = async function() {
+            let request = {
+                "jsonrpc": "2.0",
+                "method": "add_to_cart",
+                "params": {
+                    "product_id": button.dataset.productId,
+                    "count": 1
+                },
+                "id": "test"
+            }
+
+            let response = await fetch(window.location.origin + "/api/v1/jsonrpc", {
+                "method": "POST",
+                "body": JSON.stringify(request)
+            });
+
+            let result = response.json();
+            if (result != null){
+                window.location = window.location.origin + '/cart';
+            }
+        }
+    </script>
+{% endblock %}
