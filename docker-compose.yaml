@@ -10,6 +10,7 @@ services:
       MEMCACHED_HOST: "memcached"
       DB_HOST: "db"
       DB_PORT: "5432"
+      DB_PASSWORD: "${DB_PASSWORD}"
       RABBIT_HOST: "rabbit"
     depends_on:
       - memcached
@@ -29,7 +30,8 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_PASSWORD: "password"
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
     volumes:
       - ./.pgdata:/var/lib/postgresql/data
 
@@ -45,6 +47,5 @@ services:
   rabbit:
     image: rabbitmq:3.8.14-management
     ports:
-      - 5672:5672
       - 15672:15672
     hostname: "rabbit-devops"
