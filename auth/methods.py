@@ -11,6 +11,8 @@ from auth.models import User
 from auth.utils import hash_password, match_password, email_is_valid, phone_is_valid, send_email_confirmation
 from esb.helpers import EmailClient
 
+import uuid
+
 
 @method
 async def login(context, email, password):
@@ -18,7 +20,7 @@ async def login(context, email, password):
     request_obj = context['request_obj']
     try:
         user = await objects.get(User, user_email=email)
-        if match_password(user, password):
+        if match_password(user, password) and user.user_registration_confirmed:
             session = await get_session(request_obj)
             session['user_id'] = user.user_id
             logging.log(settings.LOGGER_LEVEL, f"Logged in {user.user_id=}")
@@ -52,7 +54,6 @@ async def register(context, user_name, user_surname, user_email, user_phone, use
     if not phone_is_valid(user_phone):
         raise ApiError("Invalid phone")
 
-    # todo: validate password
     app = context['request_obj'].app
     objects = app['objects']
     esb_client = app['esb_client']
@@ -64,11 +65,13 @@ async def register(context, user_name, user_surname, user_email, user_phone, use
                                     user_email=user_email,
                                     user_phone=user_phone,
                                     user_password=hash_password(user_password),
-                                    user_is_admin=False
+                                    user_is_admin=False,
+                                    user_registration_code=uuid.uuid4(),
+                                    user_registration_confirmed=False
                                     )
     except peewee.IntegrityError as error:
         raise ApiError(str(error))
 
-    await send_email_confirmation(EmailClient(esb_client), user_email)
+    await send_email_confirmation(EmailClient(esb_client), user)
 
     return {"user_id": user.user_id}

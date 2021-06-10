@@ -1,0 +1,22 @@
+{% extends "base.html"%}
+{%block title%}Подтверждение регистрации{%endblock%}
+{% block body %}
+<link rel="stylesheet" href="/static/auth.css">
+<div class="login-page">
+    <div class="login-page edit-form">
+        <h1>Упс</h1>
+        <p>
+            Вообще тут я должен писать, что вам пришло сообщение на почту,
+            но я не успел реализовать отправку =(
+        </p>
+        <p>
+            Поэтому для подтверждения регистрации просто тыкай на ссылку:
+            <a href="{{ location }}">{{ location }}</a>
+        </p>
+    </div>
+</div>
+
+<script type="text/javascript" src="/static/js/login.js">
+
+</script>
+{% endblock %}
