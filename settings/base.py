@@ -1,6 +1,7 @@
 import os
 import logging
 
+BASE_URL = 'http://84.201.153.135'
 
 HOST = os.environ.get("HOST", "0.0.0.0")
 PORT = os.environ.get("PORT", 8080)

@@ -3,6 +3,7 @@ from jsonrpcserver.exceptions import ApiError
 from aiohttp import web
 
 from auth.methods import register
+from auth.models import User
 from auth.utils import hash_password
 
 
@@ -35,3 +36,15 @@ async def register_post(request):
         raise web.HTTPFound(location)
     except ApiError as e:
         return {'error': str(e)}
+
+
+async def confirm_register(request):
+    reg_code = request.match_info.get('uuid')
+    objects = request.app['objects']
+
+    user = objects.get(User, user_registration_code=reg_code)
+    user.user_registration_confirmed = True
+    user.user_registration_code = None
+
+    location = request.app.router['shop_index']
+    raise web.HTTPFound(location)

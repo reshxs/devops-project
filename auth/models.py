@@ -10,3 +10,5 @@ class User(BaseModel):
     user_phone = peewee.CharField(null=False, unique=True)
     user_password = peewee.CharField(null=False)
     user_is_admin = peewee.BooleanField(default=False)
+    user_registration_confirmed = peewee.BooleanField()
+    user_registration_code = peewee.CharField(null=True)

@@ -1,6 +1,7 @@
 import re
 
 import bcrypt
+import settings
 
 from auth.models import User
 from esb.helpers import EmailClient
@@ -31,9 +32,14 @@ def password_is_valid(password: str):
     return len(password) >= 6 and re.search('[A-Z]+[a-z]+\w{1,}', password)
 
 
-async def send_email_confirmation(client: EmailClient, receiver: str) -> None:
+async def send_email_confirmation(client: EmailClient, user: User) -> None:
+    if user.user_registration_confirmed:
+        return
+
+    confirmation_link = f'{settings.BASE_URL}/auth/confirm_registration/{user.user_registration_code}'
+
     await client.send_message(
-        receiver,
+        receiver=user.user_email,
         title="Подтверждение регистрации",
-        content="С вашего адреса была совершена регистрация в нагем интернет магазине"
+        content=f"Подтверждить регистрацию: {confirmation_link}"
     )
