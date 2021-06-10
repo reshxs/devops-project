@@ -14,7 +14,7 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       RABBIT_HOST: "rabbit"
       RABBIT_USER: "${RABBIT_USER}"
-      RABBIT_PASSWORD: "${RABBIT_PASSWORD}"
+      RABBIT_PASS: "${RABBIT_PASSWORD}"
     depends_on:
       - memcached
       - db
@@ -54,4 +54,4 @@ services:
     hostname: "rabbit-devops"
     environment:
         RABBITMQ_DEFAULT_USER: "${RABBIT_USER}"
-        RABBITMQ_DEFAULT_PASSWORD: "${RABBIT_PASSWORD}"
+        RABBITMQ_DEFAULT_PASS: "${RABBIT_PASSWORD}"
