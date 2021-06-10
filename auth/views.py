@@ -42,9 +42,10 @@ async def confirm_register(request):
     reg_code = request.match_info.get('uuid')
     objects = request.app['objects']
 
-    user = objects.get(User, user_registration_code=reg_code)
+    user = await objects.get(User, user_registration_code=reg_code)
     user.user_registration_confirmed = True
     user.user_registration_code = None
+    await objects.update(user)
 
-    location = request.app.router['shop_index']
+    location = request.app.router['shop_index'].url_for()
     raise web.HTTPFound(location)
