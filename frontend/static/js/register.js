@@ -44,7 +44,7 @@ form.onsubmit = async function(e) {
         });
         let result = await response.json()
         if(result.result != null){
-            window.location.replace(window.location.origin + '/auth/login')
+            window.location.replace(window.location.origin + '/auth/temp-confirm/' + result.result.user_id)
         }
         else if(result.error){
             loginError.textContent = result.error.message
